@@ -28,7 +28,9 @@ xcodebuild 命令是 Xcode Command Line Tools 的一部分。通过调用这个�
 
 ## 导出ipa包
 
-```xcodebuild -exportArchive -archivePath build/imoffice.xcarchive -exportPath build/imoffice_$build.ipa -exportFormat ipa -exportProvisioningProfile "imo_push_adhoc"
+```
+xcodebuild -exportArchive -archivePath build/imoffice.xcarchive -exportPath build/imoffice_$build.ipa -exportFormat ipa -exportProvisioningProfile "imo_push_adhoc"
+
 ```
 
 这一步就是把上一步生成的archive打包成ipa出来。
@@ -52,6 +54,28 @@ jenkins的安装什么的很简单，不再多说，要想打包ipa,XCODE插件�
 * sed的正则表达式不是标准的正则，这个坑的我最苦，多少次我都以为是我的正则写的有问题，sed里除了.和* 其它符号均需要转义，比如说下面这个`[0-9]{6,}\([a-z]{4}[0-9]{1,}\)+`  这个在标准的正则里是没问题的，在sed里，()和{}都是不需要转义的，所以上面的正则在sed里应该这样写`[0-9]\{6,\}([a-z]\{4\}[0-9]\{1,\})\+`
 * jenkins xcode integeration插件，这个也很坑，没有成功的打出来过包，后续继续研究
 * 还是证书问题，明明我在命令行里可以成功的打包了，但是在jenkins里，却是不行的，因为，默认的，命令行下是当前的登陆用户，所使用的lib或者证书等等都在~/Library/下，而jenkins使用的是/Library/下的lib或者证书，所以此时的解决方案就是把用户目录下相关证书拷贝到根目录下`cp -R  ~/Library/MobileDevice/Provisioning\ Profiles/ /Library/MobileDevice/Provisioning\ Profiles/`
+
+# Final Script
+
+由于开发那边对源代码管理或者分支管理的不规范，描述文件经常更换，打包配置经常变，inhouse,adhoc都在主干分支上，真心的无力吐槽。想着要么就把这个打包过程写成可配置的吧。机缘巧合，在github上看到一个哥们写的脚本，拿过来用了一下，打出的ipa包安装时报duplicateIdentifier错误，于是就对之进行改进，并提交了一个pull request，也被原作者接受了,[github地址](https://github.com/qianyiliushang/BGIpaBuilder)，具体用法上面也有介绍，有问题联系我。
+
+# 题外话
+
+其实我还想了一个歪招，就是用xcode打包如果能成功的话，那么可以把这个配置文件拷贝出来，在用jenkins打包的时候，每次使用脚本去替换checkout出来的配置文件，这样一般来说是没有问题的。
+另外，关于版本号以及环境的切换写简单的脚本就可以搞定了，这个是每个项目都不同的，难以写一个通用的脚本。
+最后，可能在打包前unlock keychain,这里我写了一个脚本，希望能有所帮助
+
+```shell
+#!/bin/bash
+keychain=~/Library/Keychains/login.keychain
+#把下面这个换成你自己的
+sign="iPhone Distribution: XXXXXXXXXX"
+appName=imoffice
+
+#mac用户密码
+password="yourpassword"
+security unlock-keychain -p "$password" "$keychain"
+```
 
 # 附1：SED命令与选项
 附上sed相关的命令及选项，以后再写的时候就不用网上查了。
