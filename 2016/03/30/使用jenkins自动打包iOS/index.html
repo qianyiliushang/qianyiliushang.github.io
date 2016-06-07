@@ -1,0 +1,1029 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="持续集成, jenkins," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="云淡风轻" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x516C;&amp;#x53F8;&amp;#x91CC;android&amp;#x81EA;&amp;#x52A8;&amp;#x6253;&amp;#x5305;&amp;#xFF0C;&amp;#x4EE5;&amp;#x524D;&amp;#x6E20;&amp;#x9053;&amp;#x5305;&amp;#x81EA;&amp;#x52A8;&amp;#x6253;&amp;#x5305;&amp;#x90FD;OK&amp;#x4E86;&amp;#xFF0C;&amp;#x4ECA;&amp;#x5929;&amp;#x62BD;&amp;#x51FA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用jenkins自动打包iOS">
+<meta property="og:url" content="http://qianyiliushang.github.io/2016/03/30/使用jenkins自动打包iOS/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="&amp;#x516C;&amp;#x53F8;&amp;#x91CC;android&amp;#x81EA;&amp;#x52A8;&amp;#x6253;&amp;#x5305;&amp;#xFF0C;&amp;#x4EE5;&amp;#x524D;&amp;#x6E20;&amp;#x9053;&amp;#x5305;&amp;#x81EA;&amp;#x52A8;&amp;#x6253;&amp;#x5305;&amp;#x90FD;OK&amp;#x4E86;&amp;#xFF0C;&amp;#x4ECA;&amp;#x5929;&amp;#x62BD;&amp;#x51FA">
+<meta property="og:image" content="http://qianyiliushang.github.io/2016/03/30/使用jenkins自动打包iOS/xcodehelp.png">
+<meta property="og:image" content="http://qianyiliushang.github.io/2016/03/30/使用jenkins自动打包iOS/projectinfo.png">
+<meta property="og:image" content="http://qianyiliushang.github.io/2016/03/30/使用jenkins自动打包iOS/success.png">
+<meta property="og:updated_time" content="2016-06-07T02:43:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用jenkins自动打包iOS">
+<meta name="twitter:description" content="&amp;#x516C;&amp;#x53F8;&amp;#x91CC;android&amp;#x81EA;&amp;#x52A8;&amp;#x6253;&amp;#x5305;&amp;#xFF0C;&amp;#x4EE5;&amp;#x524D;&amp;#x6E20;&amp;#x9053;&amp;#x5305;&amp;#x81EA;&amp;#x52A8;&amp;#x6253;&amp;#x5305;&amp;#x90FD;OK&amp;#x4E86;&amp;#xFF0C;&amp;#x4ECA;&amp;#x5929;&amp;#x62BD;&amp;#x51FA">
+<meta name="twitter:image" content="http://qianyiliushang.github.io/2016/03/30/使用jenkins自动打包iOS/xcodehelp.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 使用jenkins自动打包iOS | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?cdd1f04324b74e0ee47ace7fd4c72ded";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不爱测试的测试攻城狮</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用jenkins自动打包iOS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-30T09:16:35+08:00" content="2016-03-30">
+              2016-03-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/测试-持续集成/" itemprop="url" rel="index">
+                    <span itemprop="name">测试, 持续集成</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/30/使用jenkins自动打包iOS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/30/使用jenkins自动打包iOS/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>&#x516C;&#x53F8;&#x91CC;android&#x81EA;&#x52A8;&#x6253;&#x5305;&#xFF0C;&#x4EE5;&#x524D;&#x6E20;&#x9053;&#x5305;&#x81EA;&#x52A8;&#x6253;&#x5305;&#x90FD;OK&#x4E86;&#xFF0C;&#x4ECA;&#x5929;&#x62BD;&#x51FA;&#x65F6;&#x95F4;&#x5F04;&#x4E00;&#x4E0B;iOS&#x7684;&#xFF0C;&#x4E4B;&#x524D;&#x6CA1;&#x505A;&#x8FC7;iOS&#x7684;&#xFF0C;&#x968F;&#x624B;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;&#x4EE5;&#x5907;&#x540E;&#x7EED;&#x67E5;&#x770B;&#x3002;<br>&#x6574;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E0B;&#x6765;&#xFF0C;&#x611F;&#x89C9;&#xFF0C;&#x7528;jenkins&#x8FD8;&#x662F;shell&#x6BD4;&#x8F83;&#x9760;&#x8C31;&#xFF0C;&#x4F7F;&#x7528;&#x63D2;&#x4EF6;&#x5404;&#x79CD;&#x95EE;&#x9898;&#x3002;&#x611F;&#x89C9;&#x8FD9;&#x4E2A;&#x4EFB;&#x52A1;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x81EA;&#x5DF1;&#x7684;sed&#x53CA;&#x6B63;&#x5219;&#x6C34;&#x5E73;&#x63D0;&#x5347;&#x4E86;&#x4E0D;&#x5C11;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;iOS&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x4E2D;&#x7684;&#x5404;&#x79CD;&#x5751;&#x90FD;&#x6478;&#x4E86;&#x4E00;&#x904D;&#x3002;<br><a id="more"></a></p>
+<h1 id="xcodebuild&#x6253;&#x5305;"><a href="#xcodebuild&#x6253;&#x5305;" class="headerlink" title="xcodebuild&#x6253;&#x5305;"></a>xcodebuild&#x6253;&#x5305;</h1><p>xcodebuild &#x547D;&#x4EE4;&#x662F; Xcode Command Line Tools &#x7684;&#x4E00;&#x90E8;&#x5206;&#x3002;&#x901A;&#x8FC7;&#x8C03;&#x7528;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x5B8C;&#x6210; iOS &#x5DE5;&#x7A0B;&#x7684;&#x7F16;&#x8BD1;&#xFF0C;&#x6253;&#x5305;&#x548C;&#x7B7E;&#x540D;&#x8FC7;&#x7A0B;&#x3002;&#x8FD9;&#x4E2A;&#x547D;&#x4EE4;&#x968F;&#x7740; Xcode &#x7684;&#x7248;&#x672C;&#x4E0D;&#x540C;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;&#x4E0A;&#x4E5F;&#x4F1A;&#x6709;&#x6240;&#x4E0D;&#x540C;&#x3002;&#x6253;&#x5F00;&#x547D;&#x4EE4;&#x884C;&#xFF0C;&#x8C03;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x4F7F;&#x7528;&#x65B9;&#x6CD5;<code>xcodebuild --help</code> <img src="/2016/03/30/&#x4F7F;&#x7528;jenkins&#x81EA;&#x52A8;&#x6253;&#x5305;iOS/xcodehelp.png" alt="xcodehelp"><br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;xcodebuild&#x7684;&#x547D;&#x4EE4;&#x8FD8;&#x662F;&#x5F88;&#x591A;&#x7684;&#xFF0C;&#x8FD9;&#x91CC;&#x4E0D;&#x4E00;&#x4E00;&#x8BB2;&#x89E3;&#xFF0C;&#x6709;&#x9700;&#x8981;&#x8BF7;&#x79FB;&#x6B65;<a href="https://developer.apple.com/library/mac/technotes/tn2339/_index.html#//apple_ref/doc/uid/DTS40014588" target="_blank" rel="external">&#x5B98;&#x65B9;&#x6587;&#x6863;</a></p>
+<h2 id="Archive&#x5DE5;&#x7A0B;"><a href="#Archive&#x5DE5;&#x7A0B;" class="headerlink" title="Archive&#x5DE5;&#x7A0B;"></a>Archive&#x5DE5;&#x7A0B;</h2><p>&#x9996;&#x5148;&#x9700;&#x8981;&#x4E86;&#x89E3;&#x7684;&#x662F;&#xFF0C;archive &#x5DE5;&#x7A0B;&#x540E;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x6211;&#x4EEC;&#x662F;&#x628A;&#x6574;&#x4E2A;&#x5DE5;&#x7A0B;&#x7F16;&#x8BD1;&#xFF0C;&#x7136;&#x540E;&#x7B7E;&#x540D;&#xFF0C;&#x53D8;&#x6210;&#x4E86;&#x4E00;&#x4E2A;&#x540E;&#x7F00;&#x540D;&#x4E3A; xcarchive &#x7684;&#x6587;&#x4EF6;&#x3002;&#x901A;&#x8FC7;&#x8C03;&#x7528;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x6574;&#x4E2A;&#x5DE5;&#x7A0B;&#x7F16;&#x8BD1;&#xFF0C;&#x7B7E;&#x540D;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x751F;&#x6210;&#x7684; xcarchive &#x6587;&#x4EF6;&#x653E;&#x5230;&#x5DE5;&#x7A0B;&#x6839;&#x8DEF;&#x5F84;&#x4E0B;&#x7684; build &#x6587;&#x4EF6;&#x5939;&#x91CC;&#x3002;</p>
+<p><code>xcodebuild -scheme imoffice -archivePath build/imoffice.xcarchive archive</code><br><br>&#x5176;&#x4E2D;<code>-scheme imoffice</code>&#x5176;&#x5B9E;&#x5C31;&#x662F;&#x5DE5;&#x7A0B;&#x540D;&#xFF0C;&#x6839;&#x636E;&#x5404;&#x81EA;&#x7684;&#x60C5;&#x51B5;&#x8C03;&#x6574;&#x3002;</p>
+<blockquote>
+<p>&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;&#x53EF;&#x4EE5;&#x5217;&#x51FA;&#x9879;&#x76EE;&#x7684;&#x6240;&#x6709;&#x4FE1;&#x606F;<br><br><code>xcodebuild -list -project &lt;your_project_name&gt;.xcodeproj</code><br><br>&#x5982;&#x4E0B;&#xFF0C;&#x6211;&#x7684;&#x5DE5;&#x7A0B;&#x6267;&#x884C;&#x4EE5;&#x4E0A;&#x547D;&#x4EE4;<br><img src="/2016/03/30/&#x4F7F;&#x7528;jenkins&#x81EA;&#x52A8;&#x6253;&#x5305;iOS/projectinfo.png" alt="projectinfo"><br>&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x6700;&#x4E0B;&#x9762;&#xFF0C;&#x5217;&#x51FA;&#x4E86;&#x672C;&#x9879;&#x76EE;&#x7684;scheme</p>
+</blockquote>
+<h2 id="&#x5BFC;&#x51FA;ipa&#x5305;"><a href="#&#x5BFC;&#x51FA;ipa&#x5305;" class="headerlink" title="&#x5BFC;&#x51FA;ipa&#x5305;"></a>&#x5BFC;&#x51FA;ipa&#x5305;</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">xcodebuild -exportArchive -archivePath build/imoffice.xcarchive -exportPath build/imoffice_$build.ipa -exportFormat ipa -exportProvisioningProfile &quot;imo_push_adhoc&quot;</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E00;&#x6B65;&#x5C31;&#x662F;&#x628A;&#x4E0A;&#x4E00;&#x6B65;&#x751F;&#x6210;&#x7684;archive&#x6253;&#x5305;&#x6210;ipa&#x51FA;&#x6765;&#x3002;</p>
+<hr>
+<p>&#x5176;&#x5B9E;&#x901A;&#x8FC7;xcodebuild&#x6253;&#x5305;&#x633A;&#x7B80;&#x5355;&#xFF0C;&#x6BD4;&#x8D77;jenkins xcode integeration&#x63D2;&#x4EF6;&#x6765;&#x7701;&#x4E8B;&#x5F88;&#x591A;&#x3002;</p>
+<p>&#x5F53;&#x7136;&#xFF0C;&#x5751;&#x4E5F;&#x662F;&#x9047;&#x5230;&#x8FC7;&#x4E0D;&#x5C11;&#x7684;&#xFF0C;&#x540E;&#x6587;&#x540E;&#x5217;&#x51FA;&#x9047;&#x5230;&#x7684;&#x90A3;&#x4E9B;&#x4E2A;&#x5751;&#x3002;&#x7531;&#x4E8E;&#x662F;&#x516C;&#x53F8;&#x9879;&#x76EE;&#xFF0C;&#x5C31;&#x4E0D;&#x628A;&#x5B8C;&#x6574;&#x7684;&#x6253;&#x5305;&#x811A;&#x672C;&#x5217;&#x51FA;&#x6765;&#x4E86;&#xFF0C;&#x6709;&#x9700;&#x8981;&#x7684;&#x53EF;&#x4EE5;&#x8054;&#x7CFB;&#x6211;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x662F;&#x6253;&#x5305;&#x6210;&#x529F;&#x7684;&#x622A;&#x56FE;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x5931;&#x8D25;&#x4E86;N&#x591A;&#x6B21;&#x4E4B;&#x540E;&#x624D;&#x6210;&#x529F;&#xFF0C;&#x4E5F;&#x628A;&#x540E;&#x6587;&#x8BF4;&#x5230;&#x7684;&#x5751;&#x90FD;&#x586B;&#x5E73;&#x4E86;&#x3002;<br><img src="/2016/03/30/&#x4F7F;&#x7528;jenkins&#x81EA;&#x52A8;&#x6253;&#x5305;iOS/success.png" alt="jenkins"></p>
+<h1 id="&#x5B89;&#x88C5;xcode&#x63D2;&#x4EF6;"><a href="#&#x5B89;&#x88C5;xcode&#x63D2;&#x4EF6;" class="headerlink" title="&#x5B89;&#x88C5;xcode&#x63D2;&#x4EF6;"></a>&#x5B89;&#x88C5;xcode&#x63D2;&#x4EF6;</h1><p>jenkins&#x7684;&#x5B89;&#x88C5;&#x4EC0;&#x4E48;&#x7684;&#x5F88;&#x7B80;&#x5355;&#xFF0C;&#x4E0D;&#x518D;&#x591A;&#x8BF4;&#xFF0C;&#x8981;&#x60F3;&#x6253;&#x5305;ipa,XCODE&#x63D2;&#x4EF6;&#x5FC5;&#x4E0D;&#x53EF;&#x5C11;&#xFF0C;&#x5728;jenkins&#x91CC;&#x8FD9;&#x4E2A;&#x63D2;&#x4EF6;&#x7684;&#x5168;&#x540D;&#x53EB;<code>Xcode integration</code></p>
+<p>&#x597D;&#x5427;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x6211;&#x7528;jenkins&#x7684;&#x63D2;&#x4EF6;&#x6253;&#x5305;&#x65F6;&#xFF0C;&#x4E00;&#x76F4;&#x6CA1;&#x6709;&#x6210;&#x529F;&#xFF0C;&#x540E;&#x9762;&#x7A7A;&#x4E0B;&#x6765;&#x7EE7;&#x7EED;&#x5B8C;&#x5584;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x4EE5;&#x53CA;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x7684;&#x5751;&#x3002;</p>
+<h1 id="&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x7684;&#x5751;"><a href="#&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x7684;&#x5751;" class="headerlink" title="&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x7684;&#x5751;"></a>&#x6784;&#x5EFA;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x7684;&#x5751;</h1><ul>
+<li>&#x4E0D;&#x5C0F;&#x5FC3;&#x628A;&#x5F00;&#x53D1;&#x8005;&#x8BC1;&#x4E66;&#x7ED9;&#x56DE;&#x6536;&#x6389;&#x4E86;&#xFF0C;&#x5F53;&#x65F6;iOS&#x5F00;&#x53D1;&#x5C31;&#x70B8;&#x5F00;&#x9505;&#x4E86;&#xFF0C;&#x6211;&#x5230;&#x73B0;&#x5728;&#x8FD8;&#x6CA1;&#x60F3;&#x8D77;&#x6765;&#x6211;&#x4EC0;&#x4E48;&#x65F6;&#x5019;&#x505A;&#x8FC7;&#x7C7B;&#x4F3C;&#x7684;&#x64CD;&#x4F5C;&#x3002;</li>
+<li>OSX&#x4E0B;&#x7684;sed&#x547D;&#x4EE4;&#xFF0C;&#x5982;&#x679C;&#x7528;<code>-i</code>&#x53BB;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x6587;&#x4EF6;&#xFF0C;&#x4F1A;&#x62A5;&#x9519;&#xFF0C;OSX&#x5F3A;&#x5236;&#x8981;&#x6C42;&#x5907;&#x4EFD;&#x539F;&#x6587;&#x4EF6;&#xFF0C;&#x7C7B;&#x4F3C;&#x4E8E; <code>sed -i &apos;&apos; &quot;s/pattern/newPattern/&quot;</code>&#x8FD9;&#x79CD;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x5907;&#x4EFD;&#x5C31;&#x76F4;&#x63A5;&#x7528;&#x2019;&#x2019;&#xFF0C;&#x53EF;&#x662F;&#xFF0C;&#x53EF;&#x662F;&#xFF0C;&#x6211;&#x7528;&#x8FD9;&#x547D;&#x4EE4;&#x5728;osx&#x4E0B;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x662F;OK&#x7684;&#xFF0C;jenkins&#x4E2D;&#x6267;&#x884C;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x7EE7;&#x7EED;&#x62A5;&#x9519;&#xFF0C;&#x90A3;&#x4E48;&#x53EA;&#x597D;&#x7528;sed -e &#x5148;&#x628A;&#x7ED3;&#x679C;&#x7F13;&#x5B58;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x66FF;&#x6362;&#x6587;&#x4EF6;&#xFF0C;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x3002;&#x3002;&#x3002;</li>
+<li>sed&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E0D;&#x662F;&#x6807;&#x51C6;&#x7684;&#x6B63;&#x5219;&#xFF0C;&#x8FD9;&#x4E2A;&#x5751;&#x7684;&#x6211;&#x6700;&#x82E6;&#xFF0C;&#x591A;&#x5C11;&#x6B21;&#x6211;&#x90FD;&#x4EE5;&#x4E3A;&#x662F;&#x6211;&#x7684;&#x6B63;&#x5219;&#x5199;&#x7684;&#x6709;&#x95EE;&#x9898;&#xFF0C;sed&#x91CC;&#x9664;&#x4E86;.&#x548C;* &#x5176;&#x5B83;&#x7B26;&#x53F7;&#x5747;&#x9700;&#x8981;&#x8F6C;&#x4E49;&#xFF0C;&#x6BD4;&#x5982;&#x8BF4;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;<code>[0-9]{6,}\([a-z]{4}[0-9]{1,}\)+</code>  &#x8FD9;&#x4E2A;&#x5728;&#x6807;&#x51C6;&#x7684;&#x6B63;&#x5219;&#x91CC;&#x662F;&#x6CA1;&#x95EE;&#x9898;&#x7684;&#xFF0C;&#x5728;sed&#x91CC;&#xFF0C;()&#x548C;{}&#x90FD;&#x662F;&#x4E0D;&#x9700;&#x8981;&#x8F6C;&#x4E49;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x4E0A;&#x9762;&#x7684;&#x6B63;&#x5219;&#x5728;sed&#x91CC;&#x5E94;&#x8BE5;&#x8FD9;&#x6837;&#x5199;<code>[0-9]\{6,\}([a-z]\{4\}[0-9]\{1,\})\+</code></li>
+<li>jenkins xcode integeration&#x63D2;&#x4EF6;&#xFF0C;&#x8FD9;&#x4E2A;&#x4E5F;&#x5F88;&#x5751;&#xFF0C;&#x6CA1;&#x6709;&#x6210;&#x529F;&#x7684;&#x6253;&#x51FA;&#x6765;&#x8FC7;&#x5305;&#xFF0C;&#x540E;&#x7EED;&#x7EE7;&#x7EED;&#x7814;&#x7A76;</li>
+<li>&#x8FD8;&#x662F;&#x8BC1;&#x4E66;&#x95EE;&#x9898;&#xFF0C;&#x660E;&#x660E;&#x6211;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x91CC;&#x53EF;&#x4EE5;&#x6210;&#x529F;&#x7684;&#x6253;&#x5305;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x5728;jenkins&#x91CC;&#xFF0C;&#x5374;&#x662F;&#x4E0D;&#x884C;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#xFF0C;&#x9ED8;&#x8BA4;&#x7684;&#xFF0C;&#x547D;&#x4EE4;&#x884C;&#x4E0B;&#x662F;&#x5F53;&#x524D;&#x7684;&#x767B;&#x9646;&#x7528;&#x6237;&#xFF0C;&#x6240;&#x4F7F;&#x7528;&#x7684;lib&#x6216;&#x8005;&#x8BC1;&#x4E66;&#x7B49;&#x7B49;&#x90FD;&#x5728;~/Library/&#x4E0B;&#xFF0C;&#x800C;jenkins&#x4F7F;&#x7528;&#x7684;&#x662F;/Library/&#x4E0B;&#x7684;lib&#x6216;&#x8005;&#x8BC1;&#x4E66;&#xFF0C;&#x6240;&#x4EE5;&#x6B64;&#x65F6;&#x7684;&#x89E3;&#x51B3;&#x65B9;&#x6848;&#x5C31;&#x662F;&#x628A;&#x7528;&#x6237;&#x76EE;&#x5F55;&#x4E0B;&#x76F8;&#x5173;&#x8BC1;&#x4E66;&#x62F7;&#x8D1D;&#x5230;&#x6839;&#x76EE;&#x5F55;&#x4E0B;<code>cp -R  ~/Library/MobileDevice/Provisioning\ Profiles/ /Library/MobileDevice/Provisioning\ Profiles/</code></li>
+</ul>
+<h1 id="Final-Script"><a href="#Final-Script" class="headerlink" title="Final Script"></a>Final Script</h1><p>&#x7531;&#x4E8E;&#x5F00;&#x53D1;&#x90A3;&#x8FB9;&#x5BF9;&#x6E90;&#x4EE3;&#x7801;&#x7BA1;&#x7406;&#x6216;&#x8005;&#x5206;&#x652F;&#x7BA1;&#x7406;&#x7684;&#x4E0D;&#x89C4;&#x8303;&#xFF0C;&#x63CF;&#x8FF0;&#x6587;&#x4EF6;&#x7ECF;&#x5E38;&#x66F4;&#x6362;&#xFF0C;&#x6253;&#x5305;&#x914D;&#x7F6E;&#x7ECF;&#x5E38;&#x53D8;&#xFF0C;inhouse,adhoc&#x90FD;&#x5728;&#x4E3B;&#x5E72;&#x5206;&#x652F;&#x4E0A;&#xFF0C;&#x771F;&#x5FC3;&#x7684;&#x65E0;&#x529B;&#x5410;&#x69FD;&#x3002;&#x60F3;&#x7740;&#x8981;&#x4E48;&#x5C31;&#x628A;&#x8FD9;&#x4E2A;&#x6253;&#x5305;&#x8FC7;&#x7A0B;&#x5199;&#x6210;&#x53EF;&#x914D;&#x7F6E;&#x7684;&#x5427;&#x3002;&#x673A;&#x7F18;&#x5DE7;&#x5408;&#xFF0C;&#x5728;github&#x4E0A;&#x770B;&#x5230;&#x4E00;&#x4E2A;&#x54E5;&#x4EEC;&#x5199;&#x7684;&#x811A;&#x672C;&#xFF0C;&#x62FF;&#x8FC7;&#x6765;&#x7528;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x6253;&#x51FA;&#x7684;ipa&#x5305;&#x5B89;&#x88C5;&#x65F6;&#x62A5;duplicateIdentifier&#x9519;&#x8BEF;&#xFF0C;&#x4E8E;&#x662F;&#x5C31;&#x5BF9;&#x4E4B;&#x8FDB;&#x884C;&#x6539;&#x8FDB;&#xFF0C;&#x5E76;&#x63D0;&#x4EA4;&#x4E86;&#x4E00;&#x4E2A;pull request&#xFF0C;&#x4E5F;&#x88AB;&#x539F;&#x4F5C;&#x8005;&#x63A5;&#x53D7;&#x4E86;,<a href="https://github.com/qianyiliushang/BGIpaBuilder" target="_blank" rel="external">github&#x5730;&#x5740;</a>&#xFF0C;&#x5177;&#x4F53;&#x7528;&#x6CD5;&#x4E0A;&#x9762;&#x4E5F;&#x6709;&#x4ECB;&#x7ECD;&#xFF0C;&#x6709;&#x95EE;&#x9898;&#x8054;&#x7CFB;&#x6211;&#x3002;</p>
+<h1 id="&#x9898;&#x5916;&#x8BDD;"><a href="#&#x9898;&#x5916;&#x8BDD;" class="headerlink" title="&#x9898;&#x5916;&#x8BDD;"></a>&#x9898;&#x5916;&#x8BDD;</h1><p>&#x5176;&#x5B9E;&#x6211;&#x8FD8;&#x60F3;&#x4E86;&#x4E00;&#x4E2A;&#x6B6A;&#x62DB;&#xFF0C;&#x5C31;&#x662F;&#x7528;xcode&#x6253;&#x5305;&#x5982;&#x679C;&#x80FD;&#x6210;&#x529F;&#x7684;&#x8BDD;&#xFF0C;&#x90A3;&#x4E48;&#x53EF;&#x4EE5;&#x628A;&#x8FD9;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x62F7;&#x8D1D;&#x51FA;&#x6765;&#xFF0C;&#x5728;&#x7528;jenkins&#x6253;&#x5305;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6BCF;&#x6B21;&#x4F7F;&#x7528;&#x811A;&#x672C;&#x53BB;&#x66FF;&#x6362;checkout&#x51FA;&#x6765;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x8FD9;&#x6837;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#x662F;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#x7684;&#x3002;<br>&#x53E6;&#x5916;&#xFF0C;&#x5173;&#x4E8E;&#x7248;&#x672C;&#x53F7;&#x4EE5;&#x53CA;&#x73AF;&#x5883;&#x7684;&#x5207;&#x6362;&#x5199;&#x7B80;&#x5355;&#x7684;&#x811A;&#x672C;&#x5C31;&#x53EF;&#x4EE5;&#x641E;&#x5B9A;&#x4E86;&#xFF0C;&#x8FD9;&#x4E2A;&#x662F;&#x6BCF;&#x4E2A;&#x9879;&#x76EE;&#x90FD;&#x4E0D;&#x540C;&#x7684;&#xFF0C;&#x96BE;&#x4EE5;&#x5199;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x7684;&#x811A;&#x672C;&#x3002;<br>&#x6700;&#x540E;&#xFF0C;&#x53EF;&#x80FD;&#x5728;&#x6253;&#x5305;&#x524D;unlock keychain,&#x8FD9;&#x91CC;&#x6211;&#x5199;&#x4E86;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#xFF0C;&#x5E0C;&#x671B;&#x80FD;&#x6709;&#x6240;&#x5E2E;&#x52A9;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">keychain=~/Library/Keychains/login.keychain</span><br><span class="line">#&#x628A;&#x4E0B;&#x9762;&#x8FD9;&#x4E2A;&#x6362;&#x6210;&#x4F60;&#x81EA;&#x5DF1;&#x7684;</span><br><span class="line">sign=&quot;iPhone Distribution: XXXXXXXXXX&quot;</span><br><span class="line">appName=imoffice</span><br><span class="line"></span><br><span class="line">#mac&#x7528;&#x6237;&#x5BC6;&#x7801;</span><br><span class="line">password=&quot;yourpassword&quot;</span><br><span class="line">security unlock-keychain -p &quot;$password&quot; &quot;$keychain&quot;</span><br></pre></td></tr></table></figure>
+<h1 id="&#x9644;1&#xFF1A;SED&#x547D;&#x4EE4;&#x4E0E;&#x9009;&#x9879;"><a href="#&#x9644;1&#xFF1A;SED&#x547D;&#x4EE4;&#x4E0E;&#x9009;&#x9879;" class="headerlink" title="&#x9644;1&#xFF1A;SED&#x547D;&#x4EE4;&#x4E0E;&#x9009;&#x9879;"></a>&#x9644;1&#xFF1A;SED&#x547D;&#x4EE4;&#x4E0E;&#x9009;&#x9879;</h1><p>&#x9644;&#x4E0A;sed&#x76F8;&#x5173;&#x7684;&#x547D;&#x4EE4;&#x53CA;&#x9009;&#x9879;&#xFF0C;&#x4EE5;&#x540E;&#x518D;&#x5199;&#x7684;&#x65F6;&#x5019;&#x5C31;&#x4E0D;&#x7528;&#x7F51;&#x4E0A;&#x67E5;&#x4E86;&#x3002;</p>
+<h2 id="SED&#x547D;&#x4EE4;"><a href="#SED&#x547D;&#x4EE4;" class="headerlink" title="SED&#x547D;&#x4EE4;"></a>SED&#x547D;&#x4EE4;</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">&#x547D;&#x4EE4;</th>
+<th style="text-align:center">&#x529F;&#x80FD;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a\</td>
+<td style="text-align:center">&#x5728;&#x5F53;&#x524D;&#x884C;&#x540E;&#x6DFB;&#x52A0;&#x4E00;&#x884C;&#x6216;&#x591A;&#x884C;&#x3002;&#x591A;&#x884C;&#x65F6;&#x9664;&#x6700;&#x540E;&#x4E00;&#x884C;&#x5916;&#xFF0C;&#x6BCF;&#x884C;&#x672B;&#x5C3E;&#x9700;&#x7528;&#x201C;\&#x201D;&#x7EED;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">c\</td>
+<td style="text-align:center">&#x7528;&#x6B64;&#x7B26;&#x53F7;&#x540E;&#x7684;&#x65B0;&#x6587;&#x672C;&#x66FF;&#x6362;&#x5F53;&#x524D;&#x884C;&#x4E2D;&#x7684;&#x6587;&#x672C;&#x3002;&#x591A;&#x884C;&#x65F6;&#x9664;&#x6700;&#x540E;&#x4E00;&#x884C;&#x5916;&#xFF0C;&#x6BCF;&#x884C;&#x672B;&#x5C3E;&#x9700;&#x7528;&#x201D;\&#x201D;&#x7EED;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">i\</td>
+<td style="text-align:center">&#x5728;&#x5F53;&#x524D;&#x884C;&#x4E4B;&#x524D;&#x63D2;&#x5165;&#x6587;&#x672C;&#x3002;&#x591A;&#x884C;&#x65F6;&#x9664;&#x6700;&#x540E;&#x4E00;&#x884C;&#x5916;&#xFF0C;&#x6BCF;&#x884C;&#x672B;&#x5C3E;&#x9700;&#x7528;&#x201D;\&#x201D;&#x7EED;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">d</td>
+<td style="text-align:center">&#x5220;&#x9664;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">h</td>
+<td style="text-align:center">&#x628A;&#x6A21;&#x5F0F;&#x7A7A;&#x95F4;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x590D;&#x5236;&#x5230;&#x6682;&#x5B58;&#x7F13;&#x51B2;&#x533A;</td>
+</tr>
+<tr>
+<td style="text-align:center">H</td>
+<td style="text-align:center">&#x628A;&#x6A21;&#x5F0F;&#x7A7A;&#x95F4;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x8FFD;&#x52A0;&#x5230;&#x6682;&#x5B58;&#x7F13;&#x51B2;&#x533A;</td>
+</tr>
+<tr>
+<td style="text-align:center">g</td>
+<td style="text-align:center">&#x628A;&#x6682;&#x5B58;&#x7F13;&#x51B2;&#x533A;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#x590D;&#x5236;&#x5230;&#x6A21;&#x5F0F;&#x7A7A;&#x95F4;&#xFF0C;&#x8986;&#x76D6;&#x539F;&#x6709;&#x7684;&#x5185;&#x5BB9;</td>
+</tr>
+<tr>
+<td style="text-align:center">l</td>
+<td style="text-align:center">&#x5217;&#x51FA;&#x975E;&#x6253;&#x5370;&#x5B57;&#x7B26;</td>
+</tr>
+<tr>
+<td style="text-align:center">p</td>
+<td style="text-align:center">&#x6253;&#x5370;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">n</td>
+<td style="text-align:center">&#x8BFB;&#x5165;&#x4E0B;&#x4E00;&#x8F93;&#x5165;&#x884C;&#xFF0C;&#x5E76;&#x4ECE;&#x4E0B;&#x4E00;&#x6761;&#x547D;&#x4EE4;&#x800C;&#x4E0D;&#x662F;&#x7B2C;&#x4E00;&#x6761;&#x547D;&#x4EE4;&#x5F00;&#x59CB;&#x5BF9;&#x5176;&#x7684;&#x5904;&#x7406;</td>
+</tr>
+<tr>
+<td style="text-align:center">q</td>
+<td style="text-align:center">&#x7ED3;&#x675F;&#x6216;&#x9000;&#x51FA;sed</td>
+</tr>
+<tr>
+<td style="text-align:center">r</td>
+<td style="text-align:center">&#x4ECE;&#x6587;&#x4EF6;&#x4E2D;&#x8BFB;&#x53D6;&#x8F93;&#x5165;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">!</td>
+<td style="text-align:center">&#x5BF9;&#x6240;&#x9009;&#x884C;&#x4EE5;&#x5916;&#x7684;&#x6240;&#x6709;&#x884C;&#x5E94;&#x7528;&#x547D;&#x4EE4;</td>
+</tr>
+<tr>
+<td style="text-align:center">s</td>
+<td style="text-align:center">&#x7528;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;&#x4E32;&#x66FF;&#x6362;&#x53E6;&#x4E00;&#x4E2A;</td>
+</tr>
+<tr>
+<td style="text-align:center">g</td>
+<td style="text-align:center">&#x5728;&#x884C;&#x5185;&#x8FDB;&#x884C;&#x5168;&#x5C40;&#x66FF;&#x6362;</td>
+</tr>
+<tr>
+<td style="text-align:center">w</td>
+<td style="text-align:center">&#x5C06;&#x6240;&#x9009;&#x7684;&#x884C;&#x5199;&#x5165;&#x6587;&#x4EF6;</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:center">&#x4EA4;&#x6362;&#x6682;&#x5B58;&#x7F13;&#x51B2;&#x533A;&#x4E0E;&#x6A21;&#x5F0F;&#x7A7A;&#x95F4;&#x7684;&#x5185;&#x5BB9;</td>
+</tr>
+<tr>
+<td style="text-align:center">y</td>
+<td style="text-align:center">&#x5C06;&#x5B57;&#x7B26;&#x66FF;&#x6362;&#x4E3A;&#x53E6;&#x4E00;&#x5B57;&#x7B26;&#xFF08;&#x4E0D;&#x80FD;&#x5BF9;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4F7F;&#x7528;y&#x547D;&#x4EE4;&#xFF09;</td>
+</tr>
+</tbody>
+</table>
+<h2 id="SED&#x9009;&#x9879;"><a href="#SED&#x9009;&#x9879;" class="headerlink" title="SED&#x9009;&#x9879;"></a>SED&#x9009;&#x9879;</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">&#x9009;&#x9879;</th>
+<th style="text-align:center">&#x529F;&#x80FD;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">-e</td>
+<td style="text-align:center">&#x8FDB;&#x884C;&#x591A;&#x9879;&#x7F16;&#x8F91;&#xFF0C;&#x5373;&#x5BF9;&#x8F93;&#x5165;&#x884C;&#x5E94;&#x7528;&#x591A;&#x6761;sed&#x547D;&#x4EE4;&#x65F6;&#x4F7F;&#x7528;</td>
+</tr>
+<tr>
+<td style="text-align:center">-n</td>
+<td style="text-align:center">&#x53D6;&#x6D88;&#x9ED8;&#x8BA4;&#x7684;&#x8F93;&#x51FA;</td>
+</tr>
+<tr>
+<td style="text-align:center">-f</td>
+<td style="text-align:center">&#x6307;&#x5B9A;sed&#x811A;&#x672C;&#x7684;&#x6587;&#x4EF6;&#x540D;</td>
+</tr>
+<tr>
+<td style="text-align:center">-i</td>
+<td style="text-align:center">&#x8868;&#x793A;&#x5C06;&#x8F6C;&#x6362;&#x7ED3;&#x679C;&#x76F4;&#x63A5;&#x63D2;&#x5165;&#x6587;&#x4EF6;&#x4E2D;&#xFF08;&#x82E5;&#x4E0D;&#x7528;-i&#xFF0C;&#x4E00;&#x822C;sed&#x547D;&#x4EE4;&#x4E0D;&#x4F1A;&#x6539;&#x53D8;&#x539F;&#x6587;&#x6863;&#x91CC;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x800C;&#x53EA;&#x4F1A;&#x8F93;&#x51FA;&#x5230;&#x547D;&#x4EE4;&#x884C;&#x3002;</td>
+</tr>
+<tr>
+<td style="text-align:center">-r</td>
+<td style="text-align:center">&#x652F;&#x6301;&#x6269;&#x5C55;&#x6B63;&#x5219;+ ? () {}</td>
+</tr>
+</tbody>
+</table>
+<p>&#x770B;&#x5230;&#x4E0A;&#x9762;&#x7684;-r&#x9009;&#x9879;&#x652F;&#x6301;&#x6269;&#x5C55;&#x7684;&#x6B63;&#x5219;&#xFF0C;&#x6211;&#x8BD5;&#x4E86;&#x4E0B;&#xFF0C;&#x597D;&#x50CF;&#x8FD8;&#x662F;&#x6709;&#x70B9;&#x95EE;&#x9898;&#xFF0C;&#x540E;&#x7EED;&#x518D;&#x7EE7;&#x7EED;&#x603B;&#x7ED3;</p>
+<h1 id="&#x9644;2&#xFF1A;sed&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E0E;&#x5143;&#x5B57;&#x7B26;"><a href="#&#x9644;2&#xFF1A;sed&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E0E;&#x5143;&#x5B57;&#x7B26;" class="headerlink" title="&#x9644;2&#xFF1A;sed&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E0E;&#x5143;&#x5B57;&#x7B26;"></a>&#x9644;2&#xFF1A;sed&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E0E;&#x5143;&#x5B57;&#x7B26;</h1><table>
+<thead>
+<tr>
+<th style="text-align:center">&#x5143;&#x5B57;&#x7B26;</th>
+<th style="text-align:center">&#x529F;&#x80FD;</th>
+<th style="text-align:center">&#x793A;&#x4F8B;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">&#x884C;&#x9996;&#x5B9A;&#x4F4D;&#x7B26;</td>
+<td style="text-align:center">/^my/  &#x5339;&#x914D;&#x6240;&#x6709;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">&#x884C;&#x5C3E;&#x5B9A;&#x4F4D;&#x7B26;</td>
+<td style="text-align:center">/my$/  &#x5339;&#x914D;&#x6240;&#x6709;&#x4EE5;my&#x7ED3;&#x5C3E;&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">&#x5339;&#x914D;&#x9664;&#x6362;&#x884C;&#x7B26;&#x4EE5;&#x5916;&#x7684;&#x5355;&#x4E2A;&#x5B57;&#x7B26;</td>
+<td style="text-align:center">/m..y/  &#x5339;&#x914D;&#x5305;&#x542B;&#x5B57;&#x6BCD;m&#xFF0C;&#x540E;&#x8DDF;&#x4E24;&#x4E2A;&#x4EFB;&#x610F;&#x5B57;&#x7B26;&#xFF0C;&#x518D;&#x8DDF;&#x5B57;&#x6BCD;y&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">&#x5339;&#x914D;&#x96F6;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x524D;&#x5BFC;&#x5B57;&#x7B26;</td>
+<td style="text-align:center">/my*/  &#x5339;&#x914D;&#x5305;&#x542B;&#x5B57;&#x6BCD;m,&#x540E;&#x8DDF;&#x96F6;&#x4E2A;&#x6216;&#x591A;&#x4E2A;y&#x5B57;&#x6BCD;&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">[]</td>
+<td style="text-align:center">&#x5339;&#x914D;&#x6307;&#x5B9A;&#x5B57;&#x7B26;&#x7EC4;&#x5185;&#x7684;&#x4EFB;&#x4E00;&#x5B57;&#x7B26;</td>
+<td style="text-align:center">/[Mm]y/  &#x5339;&#x914D;&#x5305;&#x542B;My&#x6216;my&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">[^]</td>
+<td style="text-align:center">&#x5339;&#x914D;&#x4E0D;&#x5728;&#x6307;&#x5B9A;&#x5B57;&#x7B26;&#x7EC4;&#x5185;&#x7684;&#x4EFB;&#x4E00;&#x5B57;&#x7B26;</td>
+<td style="text-align:center">/[^Mm]y/  &#x5339;&#x914D;&#x5305;&#x542B;y&#xFF0C;&#x4F46;y&#x4E4B;&#x524D;&#x7684;&#x90A3;&#x4E2A;&#x5B57;&#x7B26;&#x4E0D;&#x662F;M&#x6216;m&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">\(..\)</td>
+<td style="text-align:center">&#x4FDD;&#x5B58;&#x5DF2;&#x5339;&#x914D;&#x7684;&#x5B57;&#x7B26;</td>
+<td style="text-align:center">1,20s/\(you\)self/\1r/  &#x6807;&#x8BB0;&#x5143;&#x5B57;&#x7B26;&#x4E4B;&#x95F4;&#x7684;&#x6A21;&#x5F0F;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x4FDD;&#x5B58;&#x4E3A;&#x6807;&#x7B7E;1&#xFF0C;&#x4E4B;&#x540E;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;\1&#x6765;&#x5F15;&#x7528;&#x5B83;&#x3002;&#x6700;&#x591A;&#x53EF;&#x4EE5;&#x5B9A;&#x4E49;9&#x4E2A;&#x6807;&#x7B7E;&#xFF0C;&#x4ECE;&#x5DE6;&#x8FB9;&#x5F00;&#x59CB;&#x7F16;&#x53F7;&#xFF0C;&#x6700;&#x5DE6;&#x8FB9;&#x7684;&#x662F;&#x7B2C;&#x4E00;&#x4E2A;&#x3002;&#x6B64;&#x4F8B;&#x4E2D;&#xFF0C;&#x5BF9;&#x7B2C;1&#x5230;&#x7B2C;20&#x884C;&#x8FDB;&#x884C;&#x5904;&#x7406;&#xFF0C;you&#x88AB;&#x4FDD;&#x5B58;&#x4E3A;&#x6807;&#x7B7E;1&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;youself&#xFF0C;&#x5219;&#x66FF;&#x6362;&#x4E3A;your&#x3002;</td>
+</tr>
+<tr>
+<td style="text-align:center">&amp;</td>
+<td style="text-align:center">&#x4FDD;&#x5B58;&#x67E5;&#x627E;&#x4E32;&#x4EE5;&#x4FBF;&#x5728;&#x66FF;&#x6362;&#x4E32;&#x4E2D;&#x5F15;&#x7528;</td>
+<td style="text-align:center">s/my/##&amp;##/  &#x7B26;&#x53F7;&amp;&#x4EE3;&#x8868;&#x67E5;&#x627E;&#x4E32;&#x3002;my&#x5C06;&#x88AB;&#x66FF;&#x6362;&#x4E3A;##my##</td>
+</tr>
+<tr>
+<td style="text-align:center">\&lt;</td>
+<td style="text-align:center">&#x8BCD;&#x9996;&#x5B9A;&#x4F4D;&#x7B26;</td>
+<td style="text-align:center">/\&lt;my/  &#x5339;&#x914D;&#x5305;&#x542B;&#x4EE5;my&#x5F00;&#x5934;&#x7684;&#x5355;&#x8BCD;&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">\&gt;</td>
+<td style="text-align:center">&#x8BCD;&#x5C3E;&#x5B9A;&#x4F4D;&#x7B26;</td>
+<td style="text-align:center">/my\&gt;/  &#x5339;&#x914D;&#x5305;&#x542B;&#x4EE5;my&#x7ED3;&#x5C3E;&#x7684;&#x5355;&#x8BCD;&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">x\{m\}</td>
+<td style="text-align:center">&#x8FDE;&#x7EED;m&#x4E2A;x</td>
+<td style="text-align:center">/9\{5\}/ &#x5339;&#x914D;&#x5305;&#x542B;&#x8FDE;&#x7EED;5&#x4E2A;9&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">x\{m,\}</td>
+<td style="text-align:center">&#x81F3;&#x5C11;m&#x4E2A;x</td>
+<td style="text-align:center">/9\{5,\}/  &#x5339;&#x914D;&#x5305;&#x542B;&#x81F3;&#x5C11;&#x8FDE;&#x7EED;5&#x4E2A;9&#x7684;&#x884C;</td>
+</tr>
+<tr>
+<td style="text-align:center">x\{m,n\}</td>
+<td style="text-align:center">&#x81F3;&#x5C11;m&#x4E2A;&#xFF0C;&#x4F46;&#x4E0D;&#x8D85;&#x8FC7;n&#x4E2A;x</td>
+<td style="text-align:center">/9\{5,7\}/  &#x5339;&#x914D;&#x5305;&#x542B;&#x8FDE;&#x7EED;5&#x5230;7&#x4E2A;9&#x7684;&#x884C;</td>
+</tr>
+</tbody>
+</table>
+<p>&#x6700;&#x540E;&#xFF0C;&#x5410;&#x69FD;&#x4E00;&#x4E0B;markdown&#x7684;table&#xFF0C;&#x771F;&#x7684;&#x662F;&#x53CD;&#x4EBA;&#x7C7B;&#x554A;&#x3002;</p>
+<h1 id="&#x53C2;&#x8003;&#x6587;&#x6863;"><a href="#&#x53C2;&#x8003;&#x6587;&#x6863;" class="headerlink" title="&#x53C2;&#x8003;&#x6587;&#x6863;"></a>&#x53C2;&#x8003;&#x6587;&#x6863;</h1><ul>
+<li><a href="http://sed.sourceforge.net/sed1line_zh-CN.html" target="_blank" rel="external">SED&#x5355;&#x884C;&#x811A;&#x672C;&#x5FEB;&#x901F;&#x53C2;&#x8003;</a></li>
+<li><a href="http://www.cnblogs.com/leaftime/p/3270257.html" target="_blank" rel="external">Sed &#x547D;&#x4EE4;&#x8BE6;&#x89E3; &#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x5143;&#x5B57;&#x7B26;</a></li>
+<li><a href="https://developer.apple.com/library/mac/technotes/tn2339/_index.html#//apple_ref/doc/uid/DTS40014588" target="_blank" rel="external">Building from the Command Line with Xcode FAQ</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/持续集成-jenkins/" rel="tag">#持续集成, jenkins</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/24/svn-基本命令/" rel="next" title="svn 基本命令">
+                <i class="fa fa-chevron-left"></i> svn 基本命令
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/30/SED单行脚本快速参考/" rel="prev" title="(转)SED单行脚本快速参考">
+                (转)SED单行脚本快速参考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/30/使用jenkins自动打包iOS/"
+           data-title="使用jenkins自动打包iOS" data-url="http://qianyiliushang.github.io/2016/03/30/使用jenkins自动打包iOS/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="zombie" />
+          <p class="site-author-name" itemprop="name">zombie</p>
+          <p class="site-description motion-element" itemprop="description">人心不足蛇吞象</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https:github.com/qianyiliushang" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2258649543" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#xcodebuild打包"><span class="nav-number">1.</span> <span class="nav-text">xcodebuild打包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Archive工程"><span class="nav-number">1.1.</span> <span class="nav-text">Archive工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出ipa包"><span class="nav-number">1.2.</span> <span class="nav-text">导出ipa包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装xcode插件"><span class="nav-number">2.</span> <span class="nav-text">安装xcode插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构建过程中遇到的坑"><span class="nav-number">3.</span> <span class="nav-text">构建过程中遇到的坑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Final-Script"><span class="nav-number">4.</span> <span class="nav-text">Final Script</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题外话"><span class="nav-number">5.</span> <span class="nav-text">题外话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附1：SED命令与选项"><span class="nav-number">6.</span> <span class="nav-text">附1：SED命令与选项</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SED命令"><span class="nav-number">6.1.</span> <span class="nav-text">SED命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SED选项"><span class="nav-number">6.2.</span> <span class="nav-text">SED选项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附2：sed正则表达式与元字符"><span class="nav-number">7.</span> <span class="nav-text">附2：sed正则表达式与元字符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">8.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zombie</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"chenpeng07"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
