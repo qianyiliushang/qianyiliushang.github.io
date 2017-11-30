@@ -1,0 +1,862 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="sed," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="云淡风轻" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="SED&amp;#x5355;&amp;#x884C;&amp;#x811A;&amp;#x672C;&amp;#x5FEB;&amp;#x901F;&amp;#x53C2;&amp;#x8003;&amp;#xFF08;Unix &amp;#x6D41;&amp;#x7F16;&amp;#x8F91;&amp;#x5">
+<meta name="keywords" content="sed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(转)SED单行脚本快速参考">
+<meta property="og:url" content="http://qianyiliushang.github.io/2016/03/30/SED单行脚本快速参考/index.html">
+<meta property="og:site_name" content="云淡风轻">
+<meta property="og:description" content="SED&amp;#x5355;&amp;#x884C;&amp;#x811A;&amp;#x672C;&amp;#x5FEB;&amp;#x901F;&amp;#x53C2;&amp;#x8003;&amp;#xFF08;Unix &amp;#x6D41;&amp;#x7F16;&amp;#x8F91;&amp;#x5668;&amp;#xFF09;                       2005&amp;#x5E74;12&amp;#x6708;29&amp;#x65E5; &amp;#x82F1;&amp;#x6587;&amp;#x6807">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-30T09:40:11.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(转)SED单行脚本快速参考">
+<meta name="twitter:description" content="SED&amp;#x5355;&amp;#x884C;&amp;#x811A;&amp;#x672C;&amp;#x5FEB;&amp;#x901F;&amp;#x53C2;&amp;#x8003;&amp;#xFF08;Unix &amp;#x6D41;&amp;#x7F16;&amp;#x8F91;&amp;#x5668;&amp;#xFF09;                       2005&amp;#x5E74;12&amp;#x6708;29&amp;#x65E5; &amp;#x82F1;&amp;#x6587;&amp;#x6807">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> (转)SED单行脚本快速参考 | 云淡风轻 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?cdd1f04324b74e0ee47ace7fd4c72ded";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">云淡风轻</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不爱测试的测试攻城狮</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                (转)SED单行脚本快速参考
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-03-30T13:45:16+08:00" content="2016-03-30">
+              2016-03-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/其它-shell/" itemprop="url" rel="index">
+                    <span itemprop="name">其它, shell</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/30/SED单行脚本快速参考/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/30/SED单行脚本快速参考/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>SED&#x5355;&#x884C;&#x811A;&#x672C;&#x5FEB;&#x901F;&#x53C2;&#x8003;&#xFF08;Unix &#x6D41;&#x7F16;&#x8F91;&#x5668;&#xFF09;                       2005&#x5E74;12&#x6708;29&#x65E5;</p>
+<p>&#x82F1;&#x6587;&#x6807;&#x9898;&#xFF1A;USEFUL ONE-LINE SCRIPTS FOR SED (Unix stream editor)</p>
+<p>&#x539F;&#x6807;&#x9898;&#xFF1A;HANDY ONE-LINERS FOR SED (Unix stream editor)</p>
+<p>&#x6574;&#x7406;&#xFF1A;Eric Pement  - &#x7535;&#x90AE;&#xFF1A;pemente[at]northpark[dot]edu         &#x7248;&#x672C;5.5</p>
+<p>&#x8BD1;&#x8005;&#xFF1A;Joe Hong     - &#x7535;&#x90AE;&#xFF1A;hq00e[at]126[dot]com</p>
+<a id="more"></a>
+<p>&#x5728;&#x4EE5;&#x4E0B;&#x5730;&#x5740;&#x53EF;&#x627E;&#x5230;&#x672C;&#x6587;&#x6863;&#x7684;&#x6700;&#x65B0;&#xFF08;&#x82F1;&#x6587;&#xFF09;&#x7248;&#x672C;&#xFF1A;</p>
+<pre><code>http://sed.sourceforge.net/sed1line.txt
+http://www.pement.org/sed/sed1line.txt
+</code></pre><p>&#x5176;&#x4ED6;&#x8BED;&#x8A00;&#x7248;&#x672C;&#xFF1A;</p>
+<pre><code>&#x4E2D;&#x6587;          - http://sed.sourceforge.net/sed1line_zh-CN.html
+&#x6377;&#x514B;&#x8BED;        - http://sed.sourceforge.net/sed1line_cz.html
+&#x8377;&#x8BED;          - http://sed.sourceforge.net/sed1line_nl.html
+&#x6CD5;&#x8BED;          - http://sed.sourceforge.net/sed1line_fr.html
+&#x5FB7;&#x8BED;          - http://sed.sourceforge.net/sed1line_de.html
+
+&#x8461;&#x8BED;          - http://sed.sourceforge.net/sed1line_pt-BR.html
+</code></pre><h1 id="&#x6587;&#x672C;&#x95F4;&#x9694;"><a href="#&#x6587;&#x672C;&#x95F4;&#x9694;" class="headerlink" title="&#x6587;&#x672C;&#x95F4;&#x9694;"></a>&#x6587;&#x672C;&#x95F4;&#x9694;</h1><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x540E;&#x9762;&#x589E;&#x52A0;&#x4E00;&#x7A7A;&#x884C;</div><div class="line">sed G</div><div class="line"></div><div class="line"># &#x5C06;&#x539F;&#x6765;&#x7684;&#x6240;&#x6709;&#x7A7A;&#x884C;&#x5220;&#x9664;&#x5E76;&#x5728;&#x6BCF;&#x4E00;&#x884C;&#x540E;&#x9762;&#x589E;&#x52A0;&#x4E00;&#x7A7A;&#x884C;&#x3002;</div><div class="line"># &#x8FD9;&#x6837;&#x5728;&#x8F93;&#x51FA;&#x7684;&#x6587;&#x672C;&#x4E2D;&#x6BCF;&#x4E00;&#x884C;&#x540E;&#x9762;&#x5C06;&#x6709;&#x4E14;&#x53EA;&#x6709;&#x4E00;&#x7A7A;&#x884C;&#x3002;</div><div class="line">sed &apos;/^$/d;G&apos;</div><div class="line"></div><div class="line"># &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x540E;&#x9762;&#x589E;&#x52A0;&#x4E24;&#x884C;&#x7A7A;&#x884C;</div><div class="line">sed &apos;G;G&apos;</div><div class="line"></div><div class="line"># &#x5C06;&#x7B2C;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#x6240;&#x4EA7;&#x751F;&#x7684;&#x6240;&#x6709;&#x7A7A;&#x884C;&#x5220;&#x9664;&#xFF08;&#x5373;&#x5220;&#x9664;&#x6240;&#x6709;&#x5076;&#x6570;&#x884C;&#xFF09;</div><div class="line">sed &apos;n;d&apos;</div><div class="line"></div><div class="line"># &#x5728;&#x5339;&#x914D;&#x5F0F;&#x6837;&#x201C;regex&#x201D;&#x7684;&#x884C;&#x4E4B;&#x524D;&#x63D2;&#x5165;&#x4E00;&#x7A7A;&#x884C;</div><div class="line">sed &apos;/regex/{x;p;x;}&apos;</div><div class="line"></div><div class="line"># &#x5728;&#x5339;&#x914D;&#x5F0F;&#x6837;&#x201C;regex&#x201D;&#x7684;&#x884C;&#x4E4B;&#x540E;&#x63D2;&#x5165;&#x4E00;&#x7A7A;&#x884C;</div><div class="line">sed &apos;/regex/G&apos;</div><div class="line"></div><div class="line"># &#x5728;&#x5339;&#x914D;&#x5F0F;&#x6837;&#x201C;regex&#x201D;&#x7684;&#x884C;&#x4E4B;&#x524D;&#x548C;&#x4E4B;&#x540E;&#x5404;&#x63D2;&#x5165;&#x4E00;&#x7A7A;&#x884C;</div><div class="line">sed &apos;/regex/{x;p;x;G;}&apos;</div></pre></td></tr></table></figure>
+<h1 id="&#x7F16;&#x53F7;"><a href="#&#x7F16;&#x53F7;" class="headerlink" title="&#x7F16;&#x53F7;"></a>&#x7F16;&#x53F7;</h1><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># &#x4E3A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6BCF;&#x4E00;&#x884C;&#x8FDB;&#x884C;&#x7F16;&#x53F7;&#xFF08;&#x7B80;&#x5355;&#x7684;&#x5DE6;&#x5BF9;&#x9F50;&#x65B9;&#x5F0F;&#xFF09;&#x3002;&#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x4E86;&#x201C;&#x5236;&#x8868;&#x7B26;&#x201D;</div><div class="line"># &#xFF08;tab&#xFF0C;&#x89C1;&#x672C;&#x6587;&#x672B;&#x5C3E;&#x5173;&#x4E8E;&apos;\t&apos;&#x7684;&#x7528;&#x6CD5;&#x7684;&#x63CF;&#x8FF0;&#xFF09;&#x800C;&#x4E0D;&#x662F;&#x7A7A;&#x683C;&#x6765;&#x5BF9;&#x9F50;&#x8FB9;&#x7F18;&#x3002;</div><div class="line">sed = filename | sed &apos;N;s/\n/\t/&apos;</div><div class="line"></div><div class="line"># &#x5BF9;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x884C;&#x7F16;&#x53F7;&#xFF08;&#x884C;&#x53F7;&#x5728;&#x5DE6;&#xFF0C;&#x6587;&#x5B57;&#x53F3;&#x7AEF;&#x5BF9;&#x9F50;&#xFF09;&#x3002;</div><div class="line">sed = filename | sed &apos;N; s/^/     /; s/ *\(.\{6,\}\)\n/\1  /&apos;</div><div class="line"></div><div class="line"># &#x5BF9;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x884C;&#x7F16;&#x53F7;&#xFF0C;&#x4F46;&#x53EA;&#x663E;&#x793A;&#x975E;&#x7A7A;&#x767D;&#x884C;&#x7684;&#x884C;&#x53F7;&#x3002;</div><div class="line">sed &apos;/./=&apos; filename | sed &apos;/./N; s/\n/ /&apos;</div><div class="line"></div><div class="line"># &#x8BA1;&#x7B97;&#x884C;&#x6570; &#xFF08;&#x6A21;&#x62DF; &quot;wc -l&quot;&#xFF09;</div><div class="line">sed -n &apos;$=&apos;</div></pre></td></tr></table></figure>
+<h1 id="&#x6587;&#x672C;&#x8F6C;&#x6362;&#x548C;&#x66FF;&#x4EE3;"><a href="#&#x6587;&#x672C;&#x8F6C;&#x6362;&#x548C;&#x66FF;&#x4EE3;" class="headerlink" title="&#x6587;&#x672C;&#x8F6C;&#x6362;&#x548C;&#x66FF;&#x4EE3;"></a>&#x6587;&#x672C;&#x8F6C;&#x6362;&#x548C;&#x66FF;&#x4EE3;</h1><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># Unix&#x73AF;&#x5883;&#xFF1A;&#x8F6C;&#x6362;DOS&#x7684;&#x65B0;&#x884C;&#x7B26;&#xFF08;CR/LF&#xFF09;&#x4E3A;Unix&#x683C;&#x5F0F;&#x3002;</div><div class="line">sed &apos;s/.$//&apos;                     # &#x5047;&#x8BBE;&#x6240;&#x6709;&#x884C;&#x4EE5;CR/LF&#x7ED3;&#x675F;</div><div class="line">sed &apos;s/^M$//&apos;                    # &#x5728;bash/tcsh&#x4E2D;&#xFF0C;&#x5C06;&#x6309;Ctrl-M&#x6539;&#x4E3A;&#x6309;Ctrl-V</div><div class="line">sed &apos;s/\x0D$//&apos;                  # ssed&#x3001;gsed 3.02.80&#xFF0C;&#x53CA;&#x66F4;&#x9AD8;&#x7248;&#x672C;</div><div class="line"></div><div class="line"># Unix&#x73AF;&#x5883;&#xFF1A;&#x8F6C;&#x6362;Unix&#x7684;&#x65B0;&#x884C;&#x7B26;&#xFF08;LF&#xFF09;&#x4E3A;DOS&#x683C;&#x5F0F;&#x3002;</div><div class="line">sed &quot;s/$/`echo -e \\\r`/&quot;        # &#x5728;ksh&#x4E0B;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;</div><div class="line">sed &apos;s/$&apos;&quot;/`echo \\\r`/&quot;         # &#x5728;bash&#x4E0B;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;</div><div class="line">sed &quot;s/$/`echo \\\r`/&quot;           # &#x5728;zsh&#x4E0B;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x547D;&#x4EE4;</div><div class="line">sed &apos;s/$/\r/&apos;                    # gsed 3.02.80 &#x53CA;&#x66F4;&#x9AD8;&#x7248;&#x672C;</div><div class="line"></div><div class="line"># DOS&#x73AF;&#x5883;&#xFF1A;&#x8F6C;&#x6362;Unix&#x65B0;&#x884C;&#x7B26;&#xFF08;LF&#xFF09;&#x4E3A;DOS&#x683C;&#x5F0F;&#x3002;</div><div class="line">sed &quot;s/$//&quot;                      # &#x65B9;&#x6CD5; 1</div><div class="line">sed -n p                         # &#x65B9;&#x6CD5; 2</div><div class="line"></div><div class="line"># DOS&#x73AF;&#x5883;&#xFF1A;&#x8F6C;&#x6362;DOS&#x65B0;&#x884C;&#x7B26;&#xFF08;CR/LF&#xFF09;&#x4E3A;Unix&#x683C;&#x5F0F;&#x3002;</div><div class="line"># &#x4E0B;&#x9762;&#x7684;&#x811A;&#x672C;&#x53EA;&#x5BF9;UnxUtils sed 4.0.7 &#x53CA;&#x66F4;&#x9AD8;&#x7248;&#x672C;&#x6709;&#x6548;&#x3002;&#x8981;&#x8BC6;&#x522B;UnxUtils&#x7248;&#x672C;&#x7684;</div><div class="line">#  sed&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x5176;&#x7279;&#x6709;&#x7684;&#x201C;--text&#x201D;&#x9009;&#x9879;&#x3002;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5E2E;&#x52A9;&#x9009;&#x9879;&#xFF08;&#x201C;--help&#x201D;&#xFF09;&#x770B;</div><div class="line"># &#x5176;&#x4E2D;&#x6709;&#x65E0;&#x4E00;&#x4E2A;&#x201C;--text&#x201D;&#x9879;&#x4EE5;&#x6B64;&#x6765;&#x5224;&#x65AD;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x5426;&#x662F;UnxUtils&#x7248;&#x672C;&#x3002;&#x5176;&#x5B83;DOS</div><div class="line"># &#x7248;&#x672C;&#x7684;&#x7684;sed&#x5219;&#x65E0;&#x6CD5;&#x8FDB;&#x884C;&#x8FD9;&#x4E00;&#x8F6C;&#x6362;&#x3002;&#x4F46;&#x53EF;&#x4EE5;&#x7528;&#x201C;tr&#x201D;&#x6765;&#x5B9E;&#x73B0;&#x8FD9;&#x4E00;&#x8F6C;&#x6362;&#x3002;</div><div class="line">sed &quot;s/\r//&quot; infile &gt;outfile     # UnxUtils sed v4.0.7 &#x6216;&#x66F4;&#x9AD8;&#x7248;&#x672C;</div><div class="line">tr -d \r &lt;infile &gt;outfile        # GNU tr 1.22 &#x6216;&#x66F4;&#x9AD8;&#x7248;&#x672C;</div><div class="line"></div><div class="line"># &#x5C06;&#x6BCF;&#x4E00;&#x884C;&#x524D;&#x5BFC;&#x7684;&#x201C;&#x7A7A;&#x767D;&#x5B57;&#x7B26;&#x201D;&#xFF08;&#x7A7A;&#x683C;&#xFF0C;&#x5236;&#x8868;&#x7B26;&#xFF09;&#x5220;&#x9664;</div><div class="line"># &#x4F7F;&#x4E4B;&#x5DE6;&#x5BF9;&#x9F50;</div><div class="line">sed &apos;s/^[ \t]*//&apos;                # &#x89C1;&#x672C;&#x6587;&#x672B;&#x5C3E;&#x5173;&#x4E8E;&apos;\t&apos;&#x7528;&#x6CD5;&#x7684;&#x63CF;&#x8FF0;</div><div class="line"></div><div class="line"># &#x5C06;&#x6BCF;&#x4E00;&#x884C;&#x62D6;&#x5C3E;&#x7684;&#x201C;&#x7A7A;&#x767D;&#x5B57;&#x7B26;&#x201D;&#xFF08;&#x7A7A;&#x683C;&#xFF0C;&#x5236;&#x8868;&#x7B26;&#xFF09;&#x5220;&#x9664;</div><div class="line">sed &apos;s/[ \t]*$//&apos;                # &#x89C1;&#x672C;&#x6587;&#x672B;&#x5C3E;&#x5173;&#x4E8E;&apos;\t&apos;&#x7528;&#x6CD5;&#x7684;&#x63CF;&#x8FF0;</div><div class="line"></div><div class="line"># &#x5C06;&#x6BCF;&#x4E00;&#x884C;&#x4E2D;&#x7684;&#x524D;&#x5BFC;&#x548C;&#x62D6;&#x5C3E;&#x7684;&#x7A7A;&#x767D;&#x5B57;&#x7B26;&#x5220;&#x9664;</div><div class="line">sed &apos;s/^[ \t]*//;s/[ \t]*$//&apos;</div><div class="line"></div><div class="line"># &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x5F00;&#x5934;&#x5904;&#x63D2;&#x5165;5&#x4E2A;&#x7A7A;&#x683C;&#xFF08;&#x4F7F;&#x5168;&#x6587;&#x5411;&#x53F3;&#x79FB;&#x52A8;5&#x4E2A;&#x5B57;&#x7B26;&#x7684;&#x4F4D;&#x7F6E;&#xFF09;</div><div class="line">sed &apos;s/^/     /&apos;</div><div class="line"></div><div class="line"># &#x4EE5;79&#x4E2A;&#x5B57;&#x7B26;&#x4E3A;&#x5BBD;&#x5EA6;&#xFF0C;&#x5C06;&#x6240;&#x6709;&#x6587;&#x672C;&#x53F3;&#x5BF9;&#x9F50;</div><div class="line">sed -e :a -e &apos;s/^.\{1,78\}$/ &amp;/;ta&apos;  # 78&#x4E2A;&#x5B57;&#x7B26;&#x5916;&#x52A0;&#x6700;&#x540E;&#x7684;&#x4E00;&#x4E2A;&#x7A7A;&#x683C;</div><div class="line"></div><div class="line"># &#x4EE5;79&#x4E2A;&#x5B57;&#x7B26;&#x4E3A;&#x5BBD;&#x5EA6;&#xFF0C;&#x4F7F;&#x6240;&#x6709;&#x6587;&#x672C;&#x5C45;&#x4E2D;&#x3002;&#x5728;&#x65B9;&#x6CD5;1&#x4E2D;&#xFF0C;&#x4E3A;&#x4E86;&#x8BA9;&#x6587;&#x672C;&#x5C45;&#x4E2D;&#x6BCF;&#x4E00;&#x884C;&#x7684;&#x524D;</div><div class="line"># &#x5934;&#x548C;&#x540E;&#x5934;&#x90FD;&#x586B;&#x5145;&#x4E86;&#x7A7A;&#x683C;&#x3002; &#x5728;&#x65B9;&#x6CD5;2&#x4E2D;&#xFF0C;&#x5728;&#x5C45;&#x4E2D;&#x6587;&#x672C;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#x53EA;&#x5728;&#x6587;&#x672C;&#x7684;&#x524D;&#x9762;&#x586B;&#x5145;</div><div class="line"># &#x7A7A;&#x683C;&#xFF0C;&#x5E76;&#x4E14;&#x6700;&#x7EC8;&#x8FD9;&#x4E9B;&#x7A7A;&#x683C;&#x5C06;&#x6709;&#x4E00;&#x534A;&#x4F1A;&#x88AB;&#x5220;&#x9664;&#x3002;&#x6B64;&#x5916;&#x6BCF;&#x4E00;&#x884C;&#x7684;&#x540E;&#x5934;&#x5E76;&#x672A;&#x586B;&#x5145;&#x7A7A;&#x683C;&#x3002;</div><div class="line">sed  -e :a -e &apos;s/^.\{1,77\}$/ &amp; /;ta&apos;                     # &#x65B9;&#x6CD5;1</div><div class="line">sed  -e :a -e &apos;s/^.\{1,77\}$/ &amp;/;ta&apos; -e &apos;s/\( *\)\1/\1/&apos;  # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x4E2D;&#x67E5;&#x627E;&#x5B57;&#x4E32;&#x201C;foo&#x201D;&#xFF0C;&#x5E76;&#x5C06;&#x627E;&#x5230;&#x7684;&#x201C;foo&#x201D;&#x66FF;&#x6362;&#x4E3A;&#x201C;bar&#x201D;</div><div class="line">sed &apos;s/foo/bar/&apos;                 # &#x53EA;&#x66FF;&#x6362;&#x6BCF;&#x4E00;&#x884C;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x201C;foo&#x201D;&#x5B57;&#x4E32;</div><div class="line">sed &apos;s/foo/bar/4&apos;                # &#x53EA;&#x66FF;&#x6362;&#x6BCF;&#x4E00;&#x884C;&#x4E2D;&#x7684;&#x7B2C;&#x56DB;&#x4E2A;&#x201C;foo&#x201D;&#x5B57;&#x4E32;</div><div class="line">sed &apos;s/foo/bar/g&apos;                # &#x5C06;&#x6BCF;&#x4E00;&#x884C;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x201C;foo&#x201D;&#x90FD;&#x6362;&#x6210;&#x201C;bar&#x201D;</div><div class="line">sed &apos;s/\(.*\)foo\(.*foo\)/\1bar\2/&apos; # &#x66FF;&#x6362;&#x5012;&#x6570;&#x7B2C;&#x4E8C;&#x4E2A;&#x201C;foo&#x201D;</div><div class="line">sed &apos;s/\(.*\)foo/\1bar/&apos;            # &#x66FF;&#x6362;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x201C;foo&#x201D;</div><div class="line"></div><div class="line"># &#x53EA;&#x5728;&#x884C;&#x4E2D;&#x51FA;&#x73B0;&#x5B57;&#x4E32;&#x201C;baz&#x201D;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x5C06;&#x201C;foo&#x201D;&#x66FF;&#x6362;&#x6210;&#x201C;bar&#x201D;</div><div class="line">sed &apos;/baz/s/foo/bar/g&apos;</div><div class="line"></div><div class="line"># &#x5C06;&#x201C;foo&#x201D;&#x66FF;&#x6362;&#x6210;&#x201C;bar&#x201D;&#xFF0C;&#x5E76;&#x4E14;&#x53EA;&#x5728;&#x884C;&#x4E2D;&#x672A;&#x51FA;&#x73B0;&#x5B57;&#x4E32;&#x201C;baz&#x201D;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x66FF;&#x6362;</div><div class="line">sed &apos;/baz/!s/foo/bar/g&apos;</div><div class="line"></div><div class="line"># &#x4E0D;&#x7BA1;&#x662F;&#x201C;scarlet&#x201D;&#x201C;ruby&#x201D;&#x8FD8;&#x662F;&#x201C;puce&#x201D;&#xFF0C;&#x4E00;&#x5F8B;&#x6362;&#x6210;&#x201C;red&#x201D;</div><div class="line">sed &apos;s/scarlet/red/g;s/ruby/red/g;s/puce/red/g&apos;  #&#x5BF9;&#x591A;&#x6570;&#x7684;sed&#x90FD;&#x6709;&#x6548;</div><div class="line">gsed &apos;s/scarlet\|ruby\|puce/red/g&apos;               # &#x53EA;&#x5BF9;GNU sed&#x6709;&#x6548;</div><div class="line"></div><div class="line"># &#x5012;&#x7F6E;&#x6240;&#x6709;&#x884C;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x6210;&#x4E3A;&#x6700;&#x540E;&#x4E00;&#x884C;&#xFF0C;&#x4F9D;&#x6B21;&#x7C7B;&#x63A8;&#xFF08;&#x6A21;&#x62DF;&#x201C;tac&#x201D;&#xFF09;&#x3002;</div><div class="line"># &#x7531;&#x4E8E;&#x67D0;&#x4E9B;&#x539F;&#x56E0;&#xFF0C;&#x4F7F;&#x7528;&#x4E0B;&#x9762;&#x547D;&#x4EE4;&#x65F6;HHsed v1.5&#x4F1A;&#x5C06;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7A7A;&#x884C;&#x5220;&#x9664;</div><div class="line">sed &apos;1!G;h;$!d&apos;               # &#x65B9;&#x6CD5;1</div><div class="line">sed -n &apos;1!G;h;$p&apos;             # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x5C06;&#x884C;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x9006;&#x5E8F;&#x6392;&#x5217;&#xFF0C;&#x7B2C;&#x4E00;&#x4E2A;&#x5B57;&#x6210;&#x4E3A;&#x6700;&#x540E;&#x4E00;&#x5B57;&#xFF0C;&#x2026;&#x2026;&#xFF08;&#x6A21;&#x62DF;&#x201C;rev&#x201D;&#xFF09;</div><div class="line">sed &apos;/\n/!G;s/\(.\)\(.*\n\)/&amp;\2\1/;//D;s/.//&apos;</div><div class="line"></div><div class="line"># &#x5C06;&#x6BCF;&#x4E24;&#x884C;&#x8FDE;&#x63A5;&#x6210;&#x4E00;&#x884C;&#xFF08;&#x7C7B;&#x4F3C;&#x201C;paste&#x201D;&#xFF09;</div><div class="line">sed &apos;$!N;s/\n/ /&apos;</div><div class="line"></div><div class="line"># &#x5982;&#x679C;&#x5F53;&#x524D;&#x884C;&#x4EE5;&#x53CD;&#x659C;&#x6760;&#x201C;\&#x201D;&#x7ED3;&#x675F;&#xFF0C;&#x5219;&#x5C06;&#x4E0B;&#x4E00;&#x884C;&#x5E76;&#x5230;&#x5F53;&#x524D;&#x884C;&#x672B;&#x5C3E;</div><div class="line"># &#x5E76;&#x53BB;&#x6389;&#x539F;&#x6765;&#x884C;&#x5C3E;&#x7684;&#x53CD;&#x659C;&#x6760;</div><div class="line">sed -e :a -e &apos;/\\$/N; s/\\\n//; ta&apos;</div><div class="line"></div><div class="line"># &#x5982;&#x679C;&#x5F53;&#x524D;&#x884C;&#x4EE5;&#x7B49;&#x53F7;&#x5F00;&#x5934;&#xFF0C;&#x5C06;&#x5F53;&#x524D;&#x884C;&#x5E76;&#x5230;&#x4E0A;&#x4E00;&#x884C;&#x672B;&#x5C3E;</div><div class="line"># &#x5E76;&#x4EE5;&#x5355;&#x4E2A;&#x7A7A;&#x683C;&#x4EE3;&#x66FF;&#x539F;&#x6765;&#x884C;&#x5934;&#x7684;&#x201C;=&#x201D;</div><div class="line">sed -e :a -e &apos;$!N;s/\n=/ /;ta&apos; -e &apos;P;D&apos;</div><div class="line"></div><div class="line"># &#x4E3A;&#x6570;&#x5B57;&#x5B57;&#x4E32;&#x589E;&#x52A0;&#x9017;&#x53F7;&#x5206;&#x9694;&#x7B26;&#x53F7;&#xFF0C;&#x5C06;&#x201C;1234567&#x201D;&#x6539;&#x4E3A;&#x201C;1,234,567&#x201D;</div><div class="line">gsed &apos;:a;s/\B[0-9]\{3\}\&gt;/,&amp;/;ta&apos;                     # GNU sed</div><div class="line">sed -e :a -e &apos;s/\(.*[0-9]\)\([0-9]\{3\}\)/\1,\2/;ta&apos;  # &#x5176;&#x4ED6;sed</div><div class="line"></div><div class="line"># &#x4E3A;&#x5E26;&#x6709;&#x5C0F;&#x6570;&#x70B9;&#x548C;&#x8D1F;&#x53F7;&#x7684;&#x6570;&#x503C;&#x589E;&#x52A0;&#x9017;&#x53F7;&#x5206;&#x9694;&#x7B26;&#xFF08;GNU sed&#xFF09;</div><div class="line">gsed -r &apos;:a;s/(^|[^0-9.])([0-9]+)([0-9]{3})/\1\2,\3/g;ta&apos;</div><div class="line"></div><div class="line"># &#x5728;&#x6BCF;5&#x884C;&#x540E;&#x589E;&#x52A0;&#x4E00;&#x7A7A;&#x767D;&#x884C; &#xFF08;&#x5728;&#x7B2C;5&#xFF0C;10&#xFF0C;15&#xFF0C;20&#xFF0C;&#x7B49;&#x884C;&#x540E;&#x589E;&#x52A0;&#x4E00;&#x7A7A;&#x767D;&#x884C;&#xFF09;</div><div class="line">gsed &apos;0~5G&apos;                      # &#x53EA;&#x5BF9;GNU sed&#x6709;&#x6548;</div><div class="line">sed &apos;n;n;n;n;G;&apos;                 # &#x5176;&#x4ED6;sed</div></pre></td></tr></table></figure>
+<h1 id="&#x9009;&#x62E9;&#x6027;&#x5730;&#x663E;&#x793A;&#x7279;&#x5B9A;&#x884C;&#xFF1A;"><a href="#&#x9009;&#x62E9;&#x6027;&#x5730;&#x663E;&#x793A;&#x7279;&#x5B9A;&#x884C;&#xFF1A;" class="headerlink" title="&#x9009;&#x62E9;&#x6027;&#x5730;&#x663E;&#x793A;&#x7279;&#x5B9A;&#x884C;&#xFF1A;"></a>&#x9009;&#x62E9;&#x6027;&#x5730;&#x663E;&#x793A;&#x7279;&#x5B9A;&#x884C;&#xFF1A;</h1><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># &#x663E;&#x793A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x524D;10&#x884C; &#xFF08;&#x6A21;&#x62DF;&#x201C;head&#x201D;&#x7684;&#x884C;&#x4E3A;&#xFF09;</div><div class="line">sed 10q</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x884C; &#xFF08;&#x6A21;&#x62DF;&#x201C;head -1&#x201D;&#x547D;&#x4EE4;&#xFF09;</div><div class="line">sed q</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6700;&#x540E;10&#x884C; &#xFF08;&#x6A21;&#x62DF;&#x201C;tail&#x201D;&#xFF09;</div><div class="line">sed -e :a -e &apos;$q;N;11,$D;ba&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6700;&#x540E;2&#x884C;&#xFF08;&#x6A21;&#x62DF;&#x201C;tail -2&#x201D;&#x547D;&#x4EE4;&#xFF09;</div><div class="line">sed &apos;$!N;$!D&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6700;&#x540E;&#x4E00;&#x884C;&#xFF08;&#x6A21;&#x62DF;&#x201C;tail -1&#x201D;&#xFF09;</div><div class="line">sed &apos;$!d&apos;                        # &#x65B9;&#x6CD5;1</div><div class="line">sed -n &apos;$p&apos;                      # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5012;&#x6570;&#x7B2C;&#x4E8C;&#x884C;</div><div class="line">sed -e &apos;$!{h;d;}&apos; -e x              # &#x5F53;&#x6587;&#x4EF6;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x884C;&#x65F6;&#xFF0C;&#x8F93;&#x5165;&#x7A7A;&#x884C;</div><div class="line">sed -e &apos;1{$q;}&apos; -e &apos;$!{h;d;}&apos; -e x  # &#x5F53;&#x6587;&#x4EF6;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x884C;&#x65F6;&#xFF0C;&#x663E;&#x793A;&#x8BE5;&#x884C;</div><div class="line">sed -e &apos;1{$d;}&apos; -e &apos;$!{h;d;}&apos; -e x  # &#x5F53;&#x6587;&#x4EF6;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x884C;&#x65F6;&#xFF0C;&#x4E0D;&#x8F93;&#x51FA;</div><div class="line"></div><div class="line"># &#x53EA;&#x663E;&#x793A;&#x5339;&#x914D;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x884C;&#xFF08;&#x6A21;&#x62DF;&#x201C;grep&#x201D;&#xFF09;</div><div class="line">sed -n &apos;/regexp/p&apos;               # &#x65B9;&#x6CD5;1</div><div class="line">sed &apos;/regexp/!d&apos;                 # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x53EA;&#x663E;&#x793A;&#x201C;&#x4E0D;&#x201D;&#x5339;&#x914D;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x884C;&#xFF08;&#x6A21;&#x62DF;&#x201C;grep -v&#x201D;&#xFF09;</div><div class="line">sed -n &apos;/regexp/!p&apos;              # &#x65B9;&#x6CD5;1&#xFF0C;&#x4E0E;&#x524D;&#x9762;&#x7684;&#x547D;&#x4EE4;&#x76F8;&#x5BF9;&#x5E94;</div><div class="line">sed &apos;/regexp/d&apos;                  # &#x65B9;&#x6CD5;2&#xFF0C;&#x7C7B;&#x4F3C;&#x7684;&#x8BED;&#x6CD5;</div><div class="line"></div><div class="line"># &#x67E5;&#x627E;&#x201C;regexp&#x201D;&#x5E76;&#x5C06;&#x5339;&#x914D;&#x884C;&#x7684;&#x4E0A;&#x4E00;&#x884C;&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF0C;&#x4F46;&#x5E76;&#x4E0D;&#x663E;&#x793A;&#x5339;&#x914D;&#x884C;</div><div class="line">sed -n &apos;/regexp/{g;1!p;};h&apos;</div><div class="line"></div><div class="line"># &#x67E5;&#x627E;&#x201C;regexp&#x201D;&#x5E76;&#x5C06;&#x5339;&#x914D;&#x884C;&#x7684;&#x4E0B;&#x4E00;&#x884C;&#x663E;&#x793A;&#x51FA;&#x6765;&#xFF0C;&#x4F46;&#x5E76;&#x4E0D;&#x663E;&#x793A;&#x5339;&#x914D;&#x884C;</div><div class="line">sed -n &apos;/regexp/{n;p;}&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;regexp&#x201D;&#x7684;&#x884C;&#x53CA;&#x5176;&#x524D;&#x540E;&#x884C;&#xFF0C;&#x5E76;&#x5728;&#x7B2C;&#x4E00;&#x884C;&#x4E4B;&#x524D;&#x52A0;&#x4E0A;&#x201C;regexp&#x201D;&#x6240;</div><div class="line"># &#x5728;&#x884C;&#x7684;&#x884C;&#x53F7; &#xFF08;&#x7C7B;&#x4F3C;&#x201C;grep -A1 -B1&#x201D;&#xFF09;</div><div class="line">sed -n -e &apos;/regexp/{=;x;1!p;g;$!N;p;D;}&apos; -e h</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;AAA&#x201D;&#x3001;&#x201C;BBB&#x201D;&#x6216;&#x201C;CCC&#x201D;&#x7684;&#x884C;&#xFF08;&#x4EFB;&#x610F;&#x6B21;&#x5E8F;&#xFF09;</div><div class="line">sed &apos;/AAA/!d; /BBB/!d; /CCC/!d&apos;  # &#x5B57;&#x4E32;&#x7684;&#x6B21;&#x5E8F;&#x4E0D;&#x5F71;&#x54CD;&#x7ED3;&#x679C;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;AAA&#x201D;&#x3001;&#x201C;BBB&#x201D;&#x548C;&#x201C;CCC&#x201D;&#x7684;&#x884C;&#xFF08;&#x56FA;&#x5B9A;&#x6B21;&#x5E8F;&#xFF09;</div><div class="line">sed &apos;/AAA.*BBB.*CCC/!d&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;AAA&#x201D;&#x201C;BBB&#x201D;&#x6216;&#x201C;CCC&#x201D;&#x7684;&#x884C; &#xFF08;&#x6A21;&#x62DF;&#x201C;egrep&#x201D;&#xFF09;</div><div class="line">sed -e &apos;/AAA/b&apos; -e &apos;/BBB/b&apos; -e &apos;/CCC/b&apos; -e d    # &#x591A;&#x6570;sed</div><div class="line">gsed &apos;/AAA\|BBB\|CCC/!d&apos;                        # &#x5BF9;GNU sed&#x6709;&#x6548;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;AAA&#x201D;&#x7684;&#x6BB5;&#x843D; &#xFF08;&#x6BB5;&#x843D;&#x95F4;&#x4EE5;&#x7A7A;&#x884C;&#x5206;&#x9694;&#xFF09;</div><div class="line"># HHsed v1.5 &#x5FC5;&#x987B;&#x5728;&#x201C;x;&#x201D;&#x540E;&#x52A0;&#x5165;&#x201C;G;&#x201D;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x7684;3&#x4E2A;&#x811A;&#x672C;&#x90FD;&#x662F;&#x8FD9;&#x6837;</div><div class="line">sed -e &apos;/./{H;$!d;}&apos; -e &apos;x;/AAA/!d;&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;AAA&#x201D;&#x201C;BBB&#x201D;&#x548C;&#x201C;CCC&#x201D;&#x4E09;&#x4E2A;&#x5B57;&#x4E32;&#x7684;&#x6BB5;&#x843D; &#xFF08;&#x4EFB;&#x610F;&#x6B21;&#x5E8F;&#xFF09;</div><div class="line">sed -e &apos;/./{H;$!d;}&apos; -e &apos;x;/AAA/!d;/BBB/!d;/CCC/!d&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;&#x201C;AAA&#x201D;&#x3001;&#x201C;BBB&#x201D;&#x3001;&#x201C;CCC&#x201D;&#x4E09;&#x8005;&#x4E2D;&#x4EFB;&#x4E00;&#x5B57;&#x4E32;&#x7684;&#x6BB5;&#x843D; &#xFF08;&#x4EFB;&#x610F;&#x6B21;&#x5E8F;&#xFF09;</div><div class="line">sed -e &apos;/./{H;$!d;}&apos; -e &apos;x;/AAA/b&apos; -e &apos;/BBB/b&apos; -e &apos;/CCC/b&apos; -e d</div><div class="line">gsed &apos;/./{H;$!d;};x;/AAA\|BBB\|CCC/b;d&apos;         # &#x53EA;&#x5BF9;GNU sed&#x6709;&#x6548;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;65&#x4E2A;&#x6216;&#x4EE5;&#x4E0A;&#x5B57;&#x7B26;&#x7684;&#x884C;</div><div class="line">sed -n &apos;/^.\{65\}/p&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x5305;&#x542B;65&#x4E2A;&#x4EE5;&#x4E0B;&#x5B57;&#x7B26;&#x7684;&#x884C;</div><div class="line">sed -n &apos;/^.\{65\}/!p&apos;            # &#x65B9;&#x6CD5;1&#xFF0C;&#x4E0E;&#x4E0A;&#x9762;&#x7684;&#x811A;&#x672C;&#x76F8;&#x5BF9;&#x5E94;</div><div class="line">sed &apos;/^.\{65\}/d&apos;                # &#x65B9;&#x6CD5;2&#xFF0C;&#x66F4;&#x7B80;&#x4FBF;&#x4E00;&#x70B9;&#x7684;&#x65B9;&#x6CD5;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x90E8;&#x5206;&#x6587;&#x672C;&#x2014;&#x2014;&#x4ECE;&#x5305;&#x542B;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x884C;&#x5F00;&#x59CB;&#x5230;&#x6700;&#x540E;&#x4E00;&#x884C;&#x7ED3;&#x675F;</div><div class="line">sed -n &apos;/regexp/,$p&apos;</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x90E8;&#x5206;&#x6587;&#x672C;&#x2014;&#x2014;&#x6307;&#x5B9A;&#x884C;&#x53F7;&#x8303;&#x56F4;&#xFF08;&#x4ECE;&#x7B2C;8&#x81F3;&#x7B2C;12&#x884C;&#xFF0C;&#x542B;8&#x548C;12&#x884C;&#xFF09;</div><div class="line">sed -n &apos;8,12p&apos;                   # &#x65B9;&#x6CD5;1</div><div class="line">sed &apos;8,12!d&apos;                     # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x7B2C;52&#x884C;</div><div class="line">sed -n &apos;52p&apos;                     # &#x65B9;&#x6CD5;1</div><div class="line">sed &apos;52!d&apos;                       # &#x65B9;&#x6CD5;2</div><div class="line">sed &apos;52q;d&apos;                      # &#x65B9;&#x6CD5;3, &#x5904;&#x7406;&#x5927;&#x6587;&#x4EF6;&#x65F6;&#x66F4;&#x6709;&#x6548;&#x7387;</div><div class="line"></div><div class="line"># &#x4ECE;&#x7B2C;3&#x884C;&#x5F00;&#x59CB;&#xFF0C;&#x6BCF;7&#x884C;&#x663E;&#x793A;&#x4E00;&#x6B21;    </div><div class="line">gsed -n &apos;3~7p&apos;                   # &#x53EA;&#x5BF9;GNU sed&#x6709;&#x6548;</div><div class="line">sed -n &apos;3,${p;n;n;n;n;n;n;}&apos;     # &#x5176;&#x4ED6;sed</div><div class="line"></div><div class="line"># &#x663E;&#x793A;&#x4E24;&#x4E2A;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E4B;&#x95F4;&#x7684;&#x6587;&#x672C;&#xFF08;&#x5305;&#x542B;&#xFF09;</div><div class="line">sed -n &apos;/Iowa/,/Montana/p&apos;       # &#x533A;&#x5206;&#x5927;&#x5C0F;&#x5199;&#x65B9;&#x5F0F;</div></pre></td></tr></table></figure>
+<h1 id="&#x9009;&#x62E9;&#x6027;&#x5730;&#x5220;&#x9664;&#x7279;&#x5B9A;&#x884C;"><a href="#&#x9009;&#x62E9;&#x6027;&#x5730;&#x5220;&#x9664;&#x7279;&#x5B9A;&#x884C;" class="headerlink" title="&#x9009;&#x62E9;&#x6027;&#x5730;&#x5220;&#x9664;&#x7279;&#x5B9A;&#x884C;"></a>&#x9009;&#x62E9;&#x6027;&#x5730;&#x5220;&#x9664;&#x7279;&#x5B9A;&#x884C;</h1><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># &#x663E;&#x793A;&#x901A;&#x7BC7;&#x6587;&#x6863;&#xFF0C;&#x9664;&#x4E86;&#x4E24;&#x4E2A;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x4E4B;&#x95F4;&#x7684;&#x5185;&#x5BB9;</div><div class="line">sed &apos;/Iowa/,/Montana/d&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x76F8;&#x90BB;&#x7684;&#x91CD;&#x590D;&#x884C;&#xFF08;&#x6A21;&#x62DF;&#x201C;uniq&#x201D;&#xFF09;</div><div class="line"># &#x53EA;&#x4FDD;&#x7559;&#x91CD;&#x590D;&#x884C;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x884C;&#xFF0C;&#x5176;&#x4ED6;&#x884C;&#x5220;&#x9664;</div><div class="line">sed &apos;$!N; /^\(.*\)\n\1$/!P; D&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x91CD;&#x590D;&#x884C;&#xFF0C;&#x4E0D;&#x7BA1;&#x6709;&#x65E0;&#x76F8;&#x90BB;&#x3002;&#x6CE8;&#x610F;hold space&#x6240;&#x80FD;&#x652F;&#x6301;&#x7684;&#x7F13;&#x5B58;</div><div class="line"># &#x5927;&#x5C0F;&#xFF0C;&#x6216;&#x8005;&#x4F7F;&#x7528;GNU sed&#x3002;</div><div class="line">sed -n &apos;G; s/\n/&amp;&amp;/; /^\([ -~]*\n\).*\n\1/d; s/\n//; h; P&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x9664;&#x91CD;&#x590D;&#x884C;&#x5916;&#x7684;&#x6240;&#x6709;&#x884C;&#xFF08;&#x6A21;&#x62DF;&#x201C;uniq -d&#x201D;&#xFF09;</div><div class="line">sed &apos;$!N; s/^\(.*\)\n\1$/\1/; t; D&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x5F00;&#x5934;&#x7684;10&#x884C;</div><div class="line">sed &apos;1,10d&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6700;&#x540E;&#x4E00;&#x884C;</div><div class="line">sed &apos;$d&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6700;&#x540E;&#x4E24;&#x884C;</div><div class="line">sed &apos;N;$!P;$!D;$d&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6700;&#x540E;10&#x884C;</div><div class="line">sed -e :a -e &apos;$d;N;2,10ba&apos; -e &apos;P;D&apos;   # &#x65B9;&#x6CD5;1</div><div class="line">sed -n -e :a -e &apos;1,10!{P;N;D;};N;ba&apos;  # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x5220;&#x9664;8&#x7684;&#x500D;&#x6570;&#x884C;</div><div class="line">gsed &apos;0~8d&apos;                           # &#x53EA;&#x5BF9;GNU sed&#x6709;&#x6548;</div><div class="line">sed &apos;n;n;n;n;n;n;n;d;&apos;                # &#x5176;&#x4ED6;sed</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x5339;&#x914D;&#x5F0F;&#x6837;&#x7684;&#x884C;</div><div class="line">sed &apos;/pattern/d&apos;                      # &#x5220;&#x9664;&#x542B;pattern&#x7684;&#x884C;&#x3002;&#x5F53;&#x7136;pattern</div><div class="line">                                      # &#x53EF;&#x4EE5;&#x6362;&#x6210;&#x4EFB;&#x4F55;&#x6709;&#x6548;&#x7684;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6240;&#x6709;&#x7A7A;&#x884C;&#xFF08;&#x4E0E;&#x201C;grep &apos;.&apos; &#x201D;&#x6548;&#x679C;&#x76F8;&#x540C;&#xFF09;</div><div class="line">sed &apos;/^$/d&apos;                           # &#x65B9;&#x6CD5;1</div><div class="line">sed &apos;/./!d&apos;                           # &#x65B9;&#x6CD5;2</div><div class="line"></div><div class="line"># &#x53EA;&#x4FDD;&#x7559;&#x591A;&#x4E2A;&#x76F8;&#x90BB;&#x7A7A;&#x884C;&#x7684;&#x7B2C;&#x4E00;&#x884C;&#x3002;&#x5E76;&#x4E14;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x9876;&#x90E8;&#x548C;&#x5C3E;&#x90E8;&#x7684;&#x7A7A;&#x884C;&#x3002;</div><div class="line"># &#xFF08;&#x6A21;&#x62DF;&#x201C;cat -s&#x201D;&#xFF09;</div><div class="line">sed &apos;/./,/^$/!d&apos;        #&#x65B9;&#x6CD5;1&#xFF0C;&#x5220;&#x9664;&#x6587;&#x4EF6;&#x9876;&#x90E8;&#x7684;&#x7A7A;&#x884C;&#xFF0C;&#x5141;&#x8BB8;&#x5C3E;&#x90E8;&#x4FDD;&#x7559;&#x4E00;&#x7A7A;&#x884C;</div><div class="line">sed &apos;/^$/N;/\n$/D&apos;      #&#x65B9;&#x6CD5;2&#xFF0C;&#x5141;&#x8BB8;&#x9876;&#x90E8;&#x4FDD;&#x7559;&#x4E00;&#x7A7A;&#x884C;&#xFF0C;&#x5C3E;&#x90E8;&#x4E0D;&#x7559;&#x7A7A;&#x884C;</div><div class="line"></div><div class="line"># &#x53EA;&#x4FDD;&#x7559;&#x591A;&#x4E2A;&#x76F8;&#x90BB;&#x7A7A;&#x884C;&#x7684;&#x524D;&#x4E24;&#x884C;&#x3002;</div><div class="line">sed &apos;/^$/N;/\n$/N;//D&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x9876;&#x90E8;&#x7684;&#x6240;&#x6709;&#x7A7A;&#x884C;</div><div class="line">sed &apos;/./,$!d&apos;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6587;&#x4EF6;&#x5C3E;&#x90E8;&#x7684;&#x6240;&#x6709;&#x7A7A;&#x884C;</div><div class="line">sed -e :a -e &apos;/^\n*$/{$d;N;ba&apos; -e &apos;}&apos;  # &#x5BF9;&#x6240;&#x6709;sed&#x6709;&#x6548;</div><div class="line">sed -e :a -e &apos;/^\n*$/N;/\n$/ba&apos;        # &#x540C;&#x4E0A;&#xFF0C;&#x4F46;&#x53EA;&#x5BF9; gsed 3.02.*&#x6709;&#x6548;</div><div class="line"></div><div class="line"># &#x5220;&#x9664;&#x6BCF;&#x4E2A;&#x6BB5;&#x843D;&#x7684;&#x6700;&#x540E;&#x4E00;&#x884C;</div><div class="line">sed -n &apos;/^$/{p;h;};/./{x;/./p;}&apos;</div></pre></td></tr></table></figure>
+<h1 id="&#x7279;&#x6B8A;&#x5E94;&#x7528;"><a href="#&#x7279;&#x6B8A;&#x5E94;&#x7528;" class="headerlink" title="&#x7279;&#x6B8A;&#x5E94;&#x7528;"></a>&#x7279;&#x6B8A;&#x5E94;&#x7528;</h1><hr>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line"># &#x79FB;&#x9664;&#x624B;&#x518C;&#x9875;&#xFF08;man page&#xFF09;&#x4E2D;&#x7684;nroff&#x6807;&#x8BB0;&#x3002;&#x5728;Unix System V&#x6216;bash shell&#x4E0B;&#x4F7F;</div><div class="line"> # &#x7528;&apos;echo&apos;&#x547D;&#x4EE4;&#x65F6;&#x53EF;&#x80FD;&#x9700;&#x8981;&#x52A0;&#x4E0A; -e &#x9009;&#x9879;&#x3002;</div><div class="line"> sed &quot;s/.`echo \\\b`//g&quot;    # &#x5916;&#x5C42;&#x7684;&#x53CC;&#x62EC;&#x53F7;&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF08;Unix&#x73AF;&#x5883;&#xFF09;</div><div class="line"> sed &apos;s/.^H//g&apos;             # &#x5728;bash&#x6216;tcsh&#x4E2D;, &#x6309; Ctrl-V &#x518D;&#x6309; Ctrl-H</div><div class="line"> sed &apos;s/.\x08//g&apos;           # sed 1.5&#xFF0C;GNU sed&#xFF0C;ssed&#x6240;&#x4F7F;&#x7528;&#x7684;&#x5341;&#x516D;&#x8FDB;&#x5236;&#x7684;&#x8868;&#x793A;&#x65B9;&#x6CD5;</div><div class="line"></div><div class="line"> # &#x63D0;&#x53D6;&#x65B0;&#x95FB;&#x7EC4;&#x6216; e-mail &#x7684;&#x90AE;&#x4EF6;&#x5934;</div><div class="line"> sed &apos;/^$/q&apos;                # &#x5220;&#x9664;&#x7B2C;&#x4E00;&#x884C;&#x7A7A;&#x884C;&#x540E;&#x7684;&#x6240;&#x6709;&#x5185;&#x5BB9;</div><div class="line"></div><div class="line"> # &#x63D0;&#x53D6;&#x65B0;&#x95FB;&#x7EC4;&#x6216; e-mail &#x7684;&#x6B63;&#x6587;&#x90E8;&#x5206;</div><div class="line"> sed &apos;1,/^$/d&apos;              # &#x5220;&#x9664;&#x7B2C;&#x4E00;&#x884C;&#x7A7A;&#x884C;&#x4E4B;&#x524D;&#x7684;&#x6240;&#x6709;&#x5185;&#x5BB9;</div><div class="line"></div><div class="line"> # &#x4ECE;&#x90AE;&#x4EF6;&#x5934;&#x63D0;&#x53D6;&#x201C;Subject&#x201D;&#xFF08;&#x6807;&#x9898;&#x680F;&#x5B57;&#x6BB5;&#xFF09;&#xFF0C;&#x5E76;&#x79FB;&#x9664;&#x5F00;&#x5934;&#x7684;&#x201C;Subject:&#x201D;&#x5B57;&#x6837;</div><div class="line"> sed &apos;/^Subject: */!d; s///;q&apos;</div><div class="line"></div><div class="line"> # &#x4ECE;&#x90AE;&#x4EF6;&#x5934;&#x83B7;&#x5F97;&#x56DE;&#x590D;&#x5730;&#x5740;</div><div class="line"> sed &apos;/^Reply-To:/q; /^From:/h; /./d;g;q&apos;</div><div class="line"></div><div class="line"> # &#x83B7;&#x53D6;&#x90AE;&#x4EF6;&#x5730;&#x5740;&#x3002;&#x5728;&#x4E0A;&#x4E00;&#x4E2A;&#x811A;&#x672C;&#x6240;&#x4EA7;&#x751F;&#x7684;&#x90A3;&#x4E00;&#x884C;&#x90AE;&#x4EF6;&#x5934;&#x7684;&#x57FA;&#x7840;&#x4E0A;&#x8FDB;&#x4E00;&#x6B65;&#x7684;&#x5C06;&#x975E;&#x7535;&#x90AE;</div><div class="line"> # &#x5730;&#x5740;&#x7684;&#x90E8;&#x5206;&#x5243;&#x9664;&#x3002;&#xFF08;&#x89C1;&#x4E0A;&#x4E00;&#x811A;&#x672C;&#xFF09;</div><div class="line"> sed &apos;s/ *(.*)//; s/&gt;.*//; s/.*[:&lt;] *//&apos;</div><div class="line"></div><div class="line"> # &#x5728;&#x6BCF;&#x4E00;&#x884C;&#x5F00;&#x5934;&#x52A0;&#x4E0A;&#x4E00;&#x4E2A;&#x5C16;&#x62EC;&#x53F7;&#x548C;&#x7A7A;&#x683C;&#xFF08;&#x5F15;&#x7528;&#x4FE1;&#x606F;&#xFF09;</div><div class="line"> sed &apos;s/^/&gt; /&apos;</div><div class="line"></div><div class="line"> # &#x5C06;&#x6BCF;&#x4E00;&#x884C;&#x5F00;&#x5934;&#x5904;&#x7684;&#x5C16;&#x62EC;&#x53F7;&#x548C;&#x7A7A;&#x683C;&#x5220;&#x9664;&#xFF08;&#x89E3;&#x9664;&#x5F15;&#x7528;&#xFF09;</div><div class="line"> sed &apos;s/^&gt; //&apos;</div><div class="line"></div><div class="line"> # &#x79FB;&#x9664;&#x5927;&#x90E8;&#x5206;&#x7684;HTML&#x6807;&#x7B7E;&#xFF08;&#x5305;&#x62EC;&#x8DE8;&#x884C;&#x6807;&#x7B7E;&#xFF09;</div><div class="line"> sed -e :a -e &apos;s/&lt;[^&gt;]*&gt;//g;/&lt;/N;//ba&apos;</div><div class="line"></div><div class="line"> # &#x5C06;&#x5206;&#x6210;&#x591A;&#x5377;&#x7684;uuencode&#x6587;&#x4EF6;&#x89E3;&#x7801;&#x3002;&#x79FB;&#x9664;&#x6587;&#x4EF6;&#x5934;&#x4FE1;&#x606F;&#xFF0C;&#x53EA;&#x4FDD;&#x7559;uuencode&#x7F16;&#x7801;&#x90E8;&#x5206;&#x3002;</div><div class="line"> # &#x6587;&#x4EF6;&#x5FC5;&#x987B;&#x4EE5;&#x7279;&#x5B9A;&#x987A;&#x5E8F;&#x4F20;&#x7ED9;sed&#x3002;&#x4E0B;&#x9762;&#x7B2C;&#x4E00;&#x79CD;&#x7248;&#x672C;&#x7684;&#x811A;&#x672C;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E0B;&#x8F93;&#x5165;&#xFF1B;</div><div class="line"> # &#x7B2C;&#x4E8C;&#x79CD;&#x7248;&#x672C;&#x5219;&#x53EF;&#x4EE5;&#x653E;&#x5165;&#x4E00;&#x4E2A;&#x5E26;&#x6267;&#x884C;&#x6743;&#x9650;&#x7684;shell&#x811A;&#x672C;&#x4E2D;&#x3002;&#xFF08;&#x7531;Rahul Dhesi&#x7684;&#x4E00;</div><div class="line"> # &#x4E2A;&#x811A;&#x672C;&#x4FEE;&#x6539;&#x800C;&#x6765;&#x3002;&#xFF09;</div><div class="line"> sed &apos;/^end/,/^begin/d&apos; file1 file2 ... fileX | uudecode   # vers. 1</div><div class="line"> sed &apos;/^end/,/^begin/d&apos; &quot;$@&quot; | uudecode                    # vers. 2</div><div class="line"></div><div class="line"> # &#x5C06;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x6BB5;&#x843D;&#x4EE5;&#x5B57;&#x6BCD;&#x987A;&#x5E8F;&#x6392;&#x5E8F;&#x3002;&#x6BB5;&#x843D;&#x95F4;&#x4EE5;&#xFF08;&#x4E00;&#x884C;&#x6216;&#x591A;&#x884C;&#xFF09;&#x7A7A;&#x884C;&#x5206;&#x9694;&#x3002;GNU sed&#x4F7F;&#x7528;</div><div class="line"> # &#x5B57;&#x5143;&#x201C;\v&#x201D;&#x6765;&#x8868;&#x793A;&#x5782;&#x76F4;&#x5236;&#x8868;&#x7B26;&#xFF0C;&#x8FD9;&#x91CC;&#x7528;&#x5B83;&#x6765;&#x4F5C;&#x4E3A;&#x6362;&#x884C;&#x7B26;&#x7684;&#x5360;&#x4F4D;&#x7B26;&#x2014;&#x2014;&#x5F53;&#x7136;&#x4F60;&#x4E5F;&#x53EF;&#x4EE5;</div><div class="line"> # &#x7528;&#x5176;&#x4ED6;&#x672A;&#x5728;&#x6587;&#x4EF6;&#x4E2D;&#x4F7F;&#x7528;&#x7684;&#x5B57;&#x7B26;&#x6765;&#x4EE3;&#x66FF;&#x5B83;&#x3002;</div><div class="line"> sed &apos;/./{H;d;};x;s/\n/={NL}=/g&apos; file | sort | sed &apos;1s/={NL}=//;s/={NL}=/\n/g&apos;</div><div class="line"> gsed &apos;/./{H;d};x;y/\n/\v/&apos; file | sort | sed &apos;1s/\v//;y/\v/\n/&apos;</div><div class="line"></div><div class="line"> # &#x5206;&#x522B;&#x538B;&#x7F29;&#x6BCF;&#x4E2A;.TXT&#x6587;&#x4EF6;&#xFF0C;&#x538B;&#x7F29;&#x540E;&#x5220;&#x9664;&#x539F;&#x6765;&#x7684;&#x6587;&#x4EF6;&#x5E76;&#x5C06;&#x538B;&#x7F29;&#x540E;&#x7684;.ZIP&#x6587;&#x4EF6;</div><div class="line"> # &#x547D;&#x540D;&#x4E3A;&#x4E0E;&#x539F;&#x6765;&#x76F8;&#x540C;&#x7684;&#x540D;&#x5B57;&#xFF08;&#x53EA;&#x662F;&#x6269;&#x5C55;&#x540D;&#x4E0D;&#x540C;&#xFF09;&#x3002;&#xFF08;DOS&#x73AF;&#x5883;&#xFF1A;&#x201C;dir /b&#x201D;</div><div class="line"> # &#x663E;&#x793A;&#x4E0D;&#x5E26;&#x8DEF;&#x5F84;&#x7684;&#x6587;&#x4EF6;&#x540D;&#xFF09;&#x3002;</div><div class="line"> echo @echo off &gt;zipup.bat</div><div class="line"> dir /b *.txt | sed &quot;s/^\(.*\)\.TXT/pkzip -mo \1 \1.TXT/&quot; &gt;&gt;zipup.bat</div></pre></td></tr></table></figure>
+<h1 id="&#x4F7F;&#x7528;SED"><a href="#&#x4F7F;&#x7528;SED" class="headerlink" title="&#x4F7F;&#x7528;SED"></a>&#x4F7F;&#x7528;SED</h1><hr>
+<p>Sed&#x63A5;&#x53D7;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x7F16;&#x8F91;&#x547D;&#x4EE4;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x8BFB;&#x5165;&#x4E00;&#x884C;&#x540E;&#x5C31;&#x4F9D;&#x6B21;&#x5E94;&#x7528;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;&#x3002;<br>&#x5F53;&#x8BFB;&#x5165;&#x7B2C;&#x4E00;&#x884C;&#x8F93;&#x5165;&#x540E;&#xFF0C;sed&#x5BF9;&#x5176;&#x5E94;&#x7528;&#x6240;&#x6709;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x7ED3;&#x679C;&#x8F93;&#x51FA;&#x3002;&#x63A5;&#x7740;&#x518D;&#x8BFB;&#x5165;&#x7B2C;&#x4E8C;<br>&#x884C;&#x8F93;&#x5165;&#xFF0C;&#x5BF9;&#x5176;&#x5E94;&#x7528;&#x6240;&#x6709;&#x7684;&#x547D;&#x4EE4;&#x2026;&#x2026;&#x5E76;&#x91CD;&#x590D;&#x8FD9;&#x4E2A;&#x8FC7;&#x7A0B;&#x3002;&#x4E0A;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;sed&#x7531;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8BBE;<br>&#x5907;&#xFF08;&#x5373;&#x547D;&#x4EE4;&#x89E3;&#x91CA;&#x5668;&#xFF0C;&#x901A;&#x5E38;&#x662F;&#x4EE5;&#x7BA1;&#x9053;&#x8F93;&#x5165;&#x7684;&#x5F62;&#x5F0F;&#xFF09;&#x83B7;&#x5F97;&#x8F93;&#x5165;&#x3002;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x7ED9;&#x51FA;&#x4E00;&#x4E2A;&#x6216;&#x591A;<br>&#x4E2A;&#x6587;&#x4EF6;&#x540D;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x8FD9;&#x4E9B;&#x6587;&#x4EF6;&#x53D6;&#x4EE3;&#x6807;&#x51C6;&#x8F93;&#x5165;&#x8BBE;&#x5907;&#x6210;&#x4E3A;sed&#x7684;&#x8F93;&#x5165;&#x3002;sed&#x7684;&#x8F93;&#x51FA;&#x5C06;&#x88AB;<br>&#x9001;&#x5230;&#x6807;&#x51C6;&#x8F93;&#x51FA;&#xFF08;&#x663E;&#x793A;&#x5668;&#xFF09;&#x3002;&#x56E0;&#x6B64;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">cat filename | sed &apos;10q&apos;         # &#x4F7F;&#x7528;&#x7BA1;&#x9053;&#x8F93;&#x5165;</div><div class="line">sed &apos;10q&apos; filename               # &#x540C;&#x6837;&#x6548;&#x679C;&#xFF0C;&#x4F46;&#x4E0D;&#x4F7F;&#x7528;&#x7BA1;&#x9053;&#x8F93;&#x5165;</div><div class="line">sed &apos;10q&apos; filename &gt; newfile     # &#x5C06;&#x8F93;&#x51FA;&#x8F6C;&#x79FB;&#xFF08;&#x91CD;&#x5B9A;&#x5411;&#xFF09;&#x5230;&#x78C1;&#x76D8;&#x4E0A;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>&#x8981;&#x4E86;&#x89E3;sed&#x547D;&#x4EE4;&#x7684;&#x4F7F;&#x7528;&#x8BF4;&#x660E;&#xFF0C;&#x5305;&#x62EC;&#x5982;&#x4F55;&#x901A;&#x8FC7;&#x811A;&#x672C;&#x6587;&#x4EF6;&#xFF08;&#x800C;&#x975E;&#x4ECE;&#x547D;&#x4EE4;&#x884C;&#xFF09;&#x6765;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x547D;<br>&#x4EE4;&#xFF0C;&#x8BF7;&#x53C2;&#x9605;&#x300A;sed &amp; awk&#x300B;&#x7B2C;&#x4E8C;&#x7248;&#xFF0C;&#x4F5C;&#x8005;Dale Dougherty&#x548C;Arnold Robbins<br>&#xFF08;O&#x2019;Reilly&#xFF0C;1997&#xFF1B;<a href="http://www.ora.com&#xFF09;&#xFF0C;&#x300A;UNIX" target="_blank" rel="noopener">http://www.ora.com&#xFF09;&#xFF0C;&#x300A;UNIX</a> Text Processing&#x300B;&#xFF0C;&#x4F5C;&#x8005;<br>Dale Dougherty&#x548C;Tim O&#x2019;Reilly&#xFF08;Hayden Books&#xFF0C;1987&#xFF09;&#x6216;&#x8005;&#x662F;Mike Arst&#x5199;&#x7684;&#x6559;<br>&#x7A0B;&#x2014;&#x2014;&#x538B;&#x7F29;&#x5305;&#x7684;&#x540D;&#x79F0;&#x662F;&#x201C;U-SEDIT2.ZIP&#x201D;&#xFF08;&#x5728;&#x8BB8;&#x591A;&#x7AD9;&#x70B9;&#x4E0A;&#x90FD;&#x627E;&#x5F97;&#x5230;&#xFF09;&#x3002;&#x8981;&#x53D1;&#x6398;sed<br>&#x7684;&#x6F5C;&#x529B;&#xFF0C;&#x5219;&#x5FC5;&#x987B;&#x5BF9;&#x201C;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x201D;&#x6709;&#x8DB3;&#x591F;&#x7684;&#x7406;&#x89E3;&#x3002;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x8D44;&#x6599;&#x53EF;&#x4EE5;&#x770B;<br>&#x300A;Mastering Regular Expressions&#x300B;&#x4F5C;&#x8005;Jeffrey Friedl&#xFF08;O&#x2019;reilly 1997&#xFF09;&#x3002;<br>Unix&#x7CFB;&#x7EDF;&#x6240;&#x63D0;&#x4F9B;&#x7684;&#x624B;&#x518C;&#x9875;&#xFF08;&#x201C;man&#x201D;&#xFF09;&#x4E5F;&#x4F1A;&#x6709;&#x6240;&#x5E2E;&#x52A9;&#xFF08;&#x8BD5;&#x4E00;&#x4E0B;&#x8FD9;&#x4E9B;&#x547D;&#x4EE4;<br>&#x201C;man sed&#x201D;&#x3001;&#x201C;man regexp&#x201D;&#xFF0C;&#x6216;&#x8005;&#x770B;&#x201C;man ed&#x201D;&#x4E2D;&#x5173;&#x4E8E;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x90E8;&#x5206;&#xFF09;&#xFF0C;&#x4F46;<br>&#x624B;&#x518C;&#x63D0;&#x4F9B;&#x7684;&#x4FE1;&#x606F;&#x6BD4;&#x8F83;&#x201C;&#x62BD;&#x8C61;&#x201D;&#x2014;&#x2014;&#x8FD9;&#x4E5F;&#x662F;&#x5B83;&#x4E00;&#x76F4;&#x4E3A;&#x4EBA;&#x6240;&#x8BDF;&#x75C5;&#x7684;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x5B83;&#x672C;&#x6765;&#x5C31;&#x4E0D;<br>&#x662F;&#x7528;&#x6765;&#x6559;&#x521D;&#x5B66;&#x8005;&#x5982;&#x4F55;&#x4F7F;&#x7528;sed&#x6216;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x6559;&#x6750;&#xFF0C;&#x800C;&#x53EA;&#x662F;&#x4E3A;&#x90A3;&#x4E9B;&#x719F;&#x6089;&#x8FD9;&#x4E9B;&#x5DE5;&#x5177;&#x7684;&#x4EBA;<br>&#x63D0;&#x4F9B;&#x7684;&#x4E00;&#x4E9B;&#x6587;&#x672C;&#x53C2;&#x8003;&#x3002;</p>
+</blockquote>
+<h1 id="&#x62EC;&#x53F7;&#x8BED;&#x6CD5;"><a href="#&#x62EC;&#x53F7;&#x8BED;&#x6CD5;" class="headerlink" title="&#x62EC;&#x53F7;&#x8BED;&#x6CD5;"></a>&#x62EC;&#x53F7;&#x8BED;&#x6CD5;</h1><hr>
+<p>&#x524D;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x5BF9;sed&#x547D;&#x4EE4;&#x57FA;&#x672C;&#x4E0A;&#x90FD;&#x4F7F;&#x7528;&#x5355;&#x5F15;&#x53F7;&#xFF08;&#x2019;&#x2026;&#x2019;&#xFF09;&#x800C;&#x975E;&#x53CC;&#x5F15;&#x53F7;<br>&#xFF08;&#x201D;&#x2026;&#x201D;&#xFF09;&#x8FD9;&#x662F;&#x56E0;&#x4E3A;sed&#x901A;&#x5E38;&#x662F;&#x5728;Unix&#x5E73;&#x53F0;&#x4E0A;&#x4F7F;&#x7528;&#x3002;&#x5355;&#x5F15;&#x53F7;&#x4E0B;&#xFF0C;Unix&#x7684;shell&#xFF08;&#x547D;&#x4EE4;<br>&#x89E3;&#x91CA;&#x5668;&#xFF09;&#x4E0D;&#x4F1A;&#x5BF9;&#x7F8E;&#x5143;&#x7B26;&#xFF08;$&#xFF09;&#x548C;&#x540E;&#x5F15;&#x53F7;&#xFF08;<code>...</code>&#xFF09;&#x8FDB;&#x884C;&#x89E3;&#x91CA;&#x548C;&#x6267;&#x884C;&#x3002;&#x800C;&#x5728;&#x53CC;&#x5F15;&#x53F7;&#x4E0B;<br>&#x7F8E;&#x5143;&#x7B26;&#x4F1A;&#x88AB;&#x5C55;&#x5F00;&#x4E3A;&#x53D8;&#x91CF;&#x6216;&#x53C2;&#x6570;&#x7684;&#x503C;&#xFF0C;&#x540E;&#x5F15;&#x53F7;&#x4E2D;&#x7684;&#x547D;&#x4EE4;&#x88AB;&#x6267;&#x884C;&#x5E76;&#x4EE5;&#x8F93;&#x51FA;&#x7684;&#x7ED3;&#x679C;&#x4EE3;&#x66FF;<br>&#x540E;&#x5F15;&#x53F7;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x3002;&#x800C;&#x5728;&#x201C;csh&#x201D;&#x53CA;&#x5176;&#x884D;&#x751F;&#x7684;shell&#x4E2D;&#x4F7F;&#x7528;&#x611F;&#x53F9;&#x53F7;&#xFF08;!&#xFF09;&#x65F6;&#x9700;&#x8981;&#x5728;&#x5176;&#x524D;<br>&#x9762;&#x52A0;&#x4E0A;&#x8F6C;&#x4E49;&#x7528;&#x7684;&#x53CD;&#x659C;&#x6760;&#xFF08;&#x5C31;&#x50CF;&#x8FD9;&#x6837;&#xFF1A;\!&#xFF09;&#x4EE5;&#x4FDD;&#x8BC1;&#x4E0A;&#x9762;&#x6240;&#x4F7F;&#x7528;&#x7684;&#x4F8B;&#x5B50;&#x80FD;&#x6B63;&#x5E38;&#x8FD0;&#x884C;<br>&#xFF08;&#x5305;&#x62EC;&#x4F7F;&#x7528;&#x5355;&#x5F15;&#x53F7;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF09;&#x3002;DOS&#x7248;&#x672C;&#x7684;Sed&#x5219;&#x4E00;&#x5F8B;&#x4F7F;&#x7528;&#x53CC;&#x5F15;&#x53F7;&#xFF08;&#x201D;&#x2026;&#x201D;&#xFF09;&#x800C;&#x4E0D;&#x662F;<br>&#x5F15;&#x53F7;&#x6765;&#x5708;&#x8D77;&#x547D;&#x4EE4;&#x3002;</p>
+<p>&#x2018;\t&#x2019;&#x7684;&#x7528;&#x6CD5;&#xFF1A;&#x4E3A;&#x4E86;&#x4F7F;&#x672C;&#x6587;&#x4FDD;&#x6301;&#x884C;&#x6587;&#x7B80;&#x6D01;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x811A;&#x672C;&#x4E2D;&#x4F7F;&#x7528;&#x2019;\t&#x2019;&#x6765;&#x8868;&#x793A;&#x4E00;&#x4E2A;&#x5236;&#x8868;<br>&#x7B26;&#x3002;&#x4F46;&#x662F;&#x73B0;&#x5728;&#x5927;&#x90E8;&#x5206;&#x7248;&#x672C;&#x7684;sed&#x8FD8;&#x4E0D;&#x80FD;&#x8BC6;&#x522B;&#x2019;\t&#x2019;&#x7684;&#x7B80;&#x5199;&#x65B9;&#x5F0F;&#xFF0C;&#x56E0;&#x6B64;&#x5F53;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x4E3A;<br>&#x811A;&#x672C;&#x8F93;&#x5165;&#x5236;&#x8868;&#x7B26;&#x65F6;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x76F4;&#x63A5;&#x6309;TAB&#x952E;&#x6765;&#x8F93;&#x5165;&#x5236;&#x8868;&#x7B26;&#x800C;&#x4E0D;&#x662F;&#x8F93;&#x5165;&#x2019;\t&#x2019;&#x3002;&#x4E0B;&#x5217;&#x7684;&#x5DE5;<br>&#x5177;&#x8F6F;&#x4EF6;&#x90FD;&#x652F;&#x6301;&#x2019;\t&#x2019;&#x505A;&#x4E3A;&#x4E00;&#x4E2A;&#x6B63;&#x5219;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x5B57;&#x5143;&#x6765;&#x8868;&#x793A;&#x5236;&#x8868;&#x7B26;&#xFF1A;awk&#x3001;perl&#x3001;HHsed&#x3001;<br>sedmod&#x4EE5;&#x53CA;GNU sed v3.02.80&#x3002;</p>
+<p>&#x4E0D;&#x540C;&#x7248;&#x672C;&#x7684;SED&#xFF1A;&#x4E0D;&#x540C;&#x7684;&#x7248;&#x672C;&#x95F4;&#x7684;sed&#x4F1A;&#x6709;&#x4E9B;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#xFF0C;&#x53EF;&#x4EE5;&#x60F3;&#x8C61;&#x5B83;&#x4EEC;&#x4E4B;&#x95F4;&#x5728;&#x8BED;&#x6CD5;&#x4E0A;<br>&#x4F1A;&#x6709;&#x5DEE;&#x5F02;&#x3002;&#x5177;&#x4F53;&#x800C;&#x8A00;&#xFF0C;&#x5B83;&#x4EEC;&#x4E2D;&#x5927;&#x90E8;&#x5206;&#x4E0D;&#x652F;&#x6301;&#x5728;&#x7F16;&#x8F91;&#x547D;&#x4EE4;&#x4E2D;&#x95F4;&#x4F7F;&#x7528;&#x6807;&#x7B7E;&#xFF08;:name&#xFF09;&#x6216;&#x5206;<br>&#x652F;&#x547D;&#x4EE4;&#xFF08;b,t&#xFF09;&#xFF0C;&#x9664;&#x975E;&#x662F;&#x653E;&#x5728;&#x90A3;&#x4E9B;&#x7684;&#x672B;&#x5C3E;&#x3002;&#x8FD9;&#x7BC7;&#x6587;&#x6863;&#x4E2D;&#x6211;&#x4EEC;&#x5C3D;&#x91CF;&#x9009;&#x7528;&#x4E86;&#x53EF;&#x79FB;&#x690D;&#x6027;&#x8F83;&#x9AD8;<br>&#x7684;&#x8BED;&#x6CD5;&#xFF0C;&#x4EE5;&#x4F7F;&#x5927;&#x591A;&#x6570;&#x7248;&#x672C;&#x7684;sed&#x7684;&#x7528;&#x6237;&#x90FD;&#x80FD;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x811A;&#x672C;&#x3002;&#x4E0D;&#x8FC7;GNU&#x7248;&#x672C;&#x7684;sed&#x5141;&#x8BB8;&#x4F7F;<br>&#x7528;&#x66F4;&#x7B80;&#x6D01;&#x7684;&#x8BED;&#x6CD5;&#x3002;&#x60F3;&#x50CF;&#x4E00;&#x4E0B;&#x5F53;&#x8BFB;&#x8005;&#x770B;&#x5230;&#x4E00;&#x4E2A;&#x5F88;&#x957F;&#x7684;&#x547D;&#x4EE4;&#x65F6;&#x7684;&#x5FC3;&#x60C5;&#xFF1A;</p>
+<pre><code>sed -e &apos;/AAA/b&apos; -e &apos;/BBB/b&apos; -e &apos;/CCC/b&apos; -e d
+</code></pre><p>&#x597D;&#x6D88;&#x606F;&#x662F;GNU sed&#x80FD;&#x8BA9;&#x547D;&#x4EE4;&#x66F4;&#x7D27;&#x51D1;&#xFF1A;</p>
+<pre><code>sed &apos;/AAA/b;/BBB/b;/CCC/b;d&apos;      # &#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x5199;&#x6210;
+sed &apos;/AAA\|BBB\|CCC/b;d&apos;
+</code></pre><p>&#x6B64;&#x5916;&#xFF0C;&#x8BF7;&#x6CE8;&#x610F;&#x867D;&#x7136;&#x8BB8;&#x591A;&#x7248;&#x672C;&#x7684;sed&#x63A5;&#x53D7;&#x8C61;&#x201C;/one/ s/RE1/RE2/&#x201D;&#x8FD9;&#x79CD;&#x5728;&#x2019;s&#x2019;&#x524D;&#x5E26;&#x6709;&#x7A7A;<br>&#x683C;&#x7684;&#x547D;&#x4EE4;&#xFF0C;&#x4F46;&#x8FD9;&#x4E9B;&#x7248;&#x672C;&#x4E2D;&#x6709;&#x4E9B;&#x5374;&#x4E0D;&#x63A5;&#x53D7;&#x8FD9;&#x6837;&#x7684;&#x547D;&#x4EE4;:&#x201C;/one/! s/RE1/RE2/&#x201D;&#x3002;&#x8FD9;&#x65F6;<br>&#x53EA;&#x9700;&#x8981;&#x628A;&#x4E2D;&#x95F4;&#x7684;&#x7A7A;&#x683C;&#x53BB;&#x6389;&#x5C31;&#x884C;&#x4E86;&#x3002;</p>
+<p>&#x901F;&#x5EA6;&#x4F18;&#x5316;&#xFF1A;&#x5F53;&#x7531;&#x4E8E;&#x67D0;&#x79CD;&#x539F;&#x56E0;&#xFF08;&#x6BD4;&#x5982;&#x8F93;&#x5165;&#x6587;&#x4EF6;&#x8F83;&#x5927;&#x3001;&#x5904;&#x7406;&#x5668;&#x6216;&#x786C;&#x76D8;&#x8F83;&#x6162;&#x7B49;&#xFF09;&#x9700;&#x8981;&#x63D0;&#x9AD8;<br>&#x547D;&#x4EE4;&#x6267;&#x884C;&#x901F;&#x5EA6;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x8003;&#x8651;&#x5728;&#x66FF;&#x6362;&#x547D;&#x4EE4;&#xFF08;&#x201C;s/&#x2026;/&#x2026;/&#x201D;&#xFF09;&#x524D;&#x9762;&#x52A0;&#x4E0A;&#x5730;&#x5740;&#x8868;&#x8FBE;&#x5F0F;&#x6765;<br>&#x63D0;&#x9AD8;&#x901F;&#x5EA6;&#x3002;&#x4E3E;&#x4F8B;&#x6765;&#x8BF4;&#xFF1A;</p>
+<pre><code>sed &apos;s/foo/bar/g&apos; filename         # &#x6807;&#x51C6;&#x66FF;&#x6362;&#x547D;&#x4EE4;
+sed &apos;/foo/ s/foo/bar/g&apos; filename   # &#x901F;&#x5EA6;&#x66F4;&#x5FEB;
+sed &apos;/foo/ s//bar/g&apos; filename      # &#x7B80;&#x5199;&#x5F62;&#x5F0F;
+</code></pre><p>&#x5F53;&#x53EA;&#x9700;&#x8981;&#x663E;&#x793A;&#x6587;&#x4EF6;&#x7684;&#x524D;&#x9762;&#x7684;&#x90E8;&#x5206;&#x6216;&#x9700;&#x8981;&#x5220;&#x9664;&#x540E;&#x9762;&#x7684;&#x5185;&#x5BB9;&#x65F6;&#xFF0C;&#x53EF;&#x4EE5;&#x5728;&#x811A;&#x672C;&#x4E2D;&#x4F7F;&#x7528;&#x201C;q&#x201D;<br>&#x547D;&#x4EE4;&#xFF08;&#x9000;&#x51FA;&#x547D;&#x4EE4;&#xFF09;&#x3002;&#x5728;&#x5904;&#x7406;&#x5927;&#x7684;&#x6587;&#x4EF6;&#x65F6;&#xFF0C;&#x8FD9;&#x4F1A;&#x8282;&#x7701;&#x5927;&#x91CF;&#x65F6;&#x95F4;&#x3002;&#x56E0;&#x6B64;&#xFF1A;</p>
+<pre><code>sed -n &apos;45,50p&apos; filename           # &#x663E;&#x793A;&#x7B2C;45&#x5230;50&#x884C;
+sed -n &apos;51q;45,50p&apos; filename       # &#x4E00;&#x6837;&#xFF0C;&#x4F46;&#x5FEB;&#x5F97;&#x591A;
+</code></pre><p>&#x5982;&#x679C;&#x4F60;&#x6709;&#x5176;&#x4ED6;&#x7684;&#x5355;&#x884C;&#x811A;&#x672C;&#x60F3;&#x4E0E;&#x5927;&#x5BB6;&#x5206;&#x4EAB;&#x6216;&#x8005;&#x4F60;&#x53D1;&#x73B0;&#x4E86;&#x672C;&#x6587;&#x6863;&#x4E2D;&#x9519;&#x8BEF;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x8BF7;&#x53D1;&#x7535;<br>&#x5B50;&#x90AE;&#x4EF6;&#x7ED9;&#x672C;&#x6587;&#x6863;&#x7684;&#x4F5C;&#x8005;&#xFF08;Eric Pement&#xFF09;&#x3002;&#x90AE;&#x4EF6;&#x4E2D;&#x8BF7;&#x8BB0;&#x5F97;&#x63D0;&#x4F9B;&#x4F60;&#x6240;&#x4F7F;&#x7528;&#x7684;sed&#x7248;&#x672C;&#x3001;<br>&#x8BE5;sed&#x6240;&#x8FD0;&#x884C;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x53CA;&#x5BF9;&#x95EE;&#x9898;&#x7684;&#x9002;&#x5F53;&#x63CF;&#x8FF0;&#x3002;&#x672C;&#x6587;&#x6240;&#x6307;&#x7684;&#x5355;&#x884C;&#x811A;&#x672C;&#x6307;&#x547D;&#x4EE4;&#x884C;&#x7684;&#x957F;<br>&#x5EA6;&#x5728;65&#x4E2A;&#x5B57;&#x7B26;&#x6216;65&#x4E2A;&#x4EE5;&#x4E0B;&#x7684;sed&#x811A;&#x672C;&#x3014;&#x8BD1;&#x6CE8;1&#x3015;&#x3002;&#x672C;&#x6587;&#x6863;&#x7684;&#x5404;&#x79CD;&#x811A;&#x672C;&#x662F;&#x7531;&#x4EE5;&#x4E0B;&#x6240;&#x5217;&#x4F5C;<br>&#x8005;&#x6240;&#x5199;&#x6216;&#x63D0;&#x4F9B;&#xFF1A;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Al Aab                               # &#x5EFA;&#x7ACB;&#x4E86;&#x201C;seders&#x201D;&#x90AE;&#x4EF6;&#x5217;&#x8868;</div><div class="line">Edgar Allen                          # &#x8BB8;&#x591A;&#x65B9;&#x9762;</div><div class="line">Yiorgos Adamopoulos                  # &#x8BB8;&#x591A;&#x65B9;&#x9762;</div><div class="line">Dale Dougherty                       # &#x300A;sed &amp; awk&#x300B;&#x4F5C;&#x8005;</div><div class="line">Carlos Duarte                        # &#x300A;do it with sed&#x300B;&#x4F5C;&#x8005;</div><div class="line">Eric Pement                          # &#x672C;&#x6587;&#x6863;&#x7684;&#x4F5C;&#x8005;</div><div class="line">Ken Pizzini                          # GNU sed v3.02 &#x7684;&#x4F5C;&#x8005;</div><div class="line">S.G. Ravenhall                       # &#x53BB;html&#x6807;&#x7B7E;&#x811A;&#x672C;</div><div class="line">Greg Ubben                           # &#x6709;&#x8BF8;&#x591A;&#x8D21;&#x732E;&#x5E76;&#x63D0;&#x4F9B;&#x4E86;&#x8BB8;&#x591A;&#x5E2E;&#x52A9;</div></pre></td></tr></table></figure>
+<hr>
+<p>&#x8BD1;&#x6CE8;1&#xFF1A;&#x5927;&#x90E8;&#x5206;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;sed&#x811A;&#x672C;&#x65E0;&#x8BBA;&#x591A;&#x957F;&#x90FD;&#x80FD;&#x5199;&#x6210;&#x5355;&#x884C;&#x7684;&#x5F62;&#x5F0F;&#xFF08;&#x901A;&#x8FC7;`-e&#x2019;&#x9009;&#x9879;&#x548C;`;&#x2019;<br>&#x53F7;&#xFF09;&#x2014;&#x2014;&#x53EA;&#x8981;&#x547D;&#x4EE4;&#x89E3;&#x91CA;&#x5668;&#x652F;&#x6301;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x8BF4;&#x7684;&#x5355;&#x884C;&#x811A;&#x672C;&#x9664;&#x4E86;&#x80FD;&#x5199;&#x6210;&#x4E00;&#x884C;&#x8FD8;&#x5BF9;&#x957F;&#x5EA6;&#x6709;<br>&#x6240;&#x9650;&#x5236;&#x3002;&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x5355;&#x884C;&#x811A;&#x672C;&#x7684;&#x610F;&#x4E49;&#x4E0D;&#x5728;&#x4E8E;&#x5B83;&#x4EEC;&#x662F;&#x4EE5;&#x5355;&#x884C;&#x7684;&#x5F62;&#x5F0F;&#x51FA;&#x73B0;&#x3002;&#x800C;&#x662F;&#x8BA9;&#x7528;&#x6237;&#x80FD;<br>&#x65B9;&#x4FBF;&#x5730;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x4E2D;&#x4F7F;&#x7528;&#x8FD9;&#x4E9B;&#x7D27;&#x51D1;&#x7684;&#x811A;&#x672C;&#x624D;&#x662F;&#x5176;&#x610F;&#x4E49;&#x6240;&#x5728;&#x3002;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sed/" rel="tag">#sed</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/30/使用jenkins自动打包iOS/" rel="next" title="使用jenkins自动打包iOS">
+                <i class="fa fa-chevron-left"></i> 使用jenkins自动打包iOS
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/11/Jmeter-最佳实践/" rel="prev" title="Jmeter 最佳实践">
+                Jmeter 最佳实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/30/SED单行脚本快速参考/"
+           data-title="(转)SED单行脚本快速参考" data-url="http://qianyiliushang.github.io/2016/03/30/SED单行脚本快速参考/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="zombie" />
+          <p class="site-author-name" itemprop="name">zombie</p>
+          <p class="site-description motion-element" itemprop="description">人心不足蛇吞象</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https:github.com/qianyiliushang" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2258649543" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文本间隔"><span class="nav-number">1.</span> <span class="nav-text">文本间隔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编号"><span class="nav-number">2.</span> <span class="nav-text">编号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本转换和替代"><span class="nav-number">3.</span> <span class="nav-text">文本转换和替代</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择性地显示特定行："><span class="nav-number">4.</span> <span class="nav-text">选择性地显示特定行：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择性地删除特定行"><span class="nav-number">5.</span> <span class="nav-text">选择性地删除特定行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特殊应用"><span class="nav-number">6.</span> <span class="nav-text">特殊应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用SED"><span class="nav-number">7.</span> <span class="nav-text">使用SED</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#括号语法"><span class="nav-number">8.</span> <span class="nav-text">括号语法</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zombie</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"chenpeng07"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>
