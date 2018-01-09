@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://qianyiliushang.github.io/2018/01/09/CentOS-7-%E5%AE%89%E8%A3%85jira/</loc>
+    
+    <lastmod>2018-01-09T09:54:09.375Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://qianyiliushang.github.io/2017/12/01/%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7/</loc>
     
     <lastmod>2017-12-04T12:33:29.390Z</lastmod>
@@ -9,14 +16,14 @@
   </url>
   
   <url>
-    <loc>http://qianyiliushang.github.io/tags/index.html</loc>
+    <loc>http://qianyiliushang.github.io/categories/index.html</loc>
     
     <lastmod>2017-12-01T03:48:04.790Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://qianyiliushang.github.io/categories/index.html</loc>
+    <loc>http://qianyiliushang.github.io/tags/index.html</loc>
     
     <lastmod>2017-12-01T03:48:04.790Z</lastmod>
     

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://qianyiliushang.github.io/"/>
-  <updated>2017-12-04T12:33:29.390Z</updated>
+  <updated>2018-01-09T09:54:09.375Z</updated>
   <id>http://qianyiliushang.github.io/</id>
   
   <author>
@@ -14,6 +14,70 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CentOS 7 安装jira</title>
+    <link href="http://qianyiliushang.github.io/2018/01/09/CentOS-7-%E5%AE%89%E8%A3%85jira/"/>
+    <id>http://qianyiliushang.github.io/2018/01/09/CentOS-7-安装jira/</id>
+    <published>2018-01-09T07:31:23.000Z</published>
+    <updated>2018-01-09T09:54:09.375Z</updated>
+    
+    <content type="html"><![CDATA[<p>&#x4E4B;&#x524D;&#x4E00;&#x76F4;&#x7528;&#x7684;Jira6.3.6&#xFF0C;&#x57FA;&#x672C;&#x4E0A;&#x5B89;&#x88C5;&#x4E00;&#x6B21;&#x5C31;&#x4E0D;&#x7528;&#x518D;&#x52A8;&#x4E86;&#xFF0C;&#x73B0;&#x5728;&#x8981;&#x7528;&#x5230;jira agile&#x4E2D;&#x7684;&#x9879;&#x76EE;&#x7BA1;&#x7406;&#xFF0C;&#x4EE5;&#x524D;&#x5B89;&#x88C5;&#x7684;&#x65F6;&#x5019;&#x6CA1;&#x6709;&#x9009;&#xFF0C;&#x6240;&#x4EE5;&#x53EA;&#x80FD;&#x91CD;&#x65B0;&#x5B89;&#x88C5;&#x4E86;&#xFF0C;&#x622A;&#x6B62;&#x76EE;&#x524D;&#xFF0C;jira&#x6700;&#x65B0;&#x7248;&#x672C;&#x662F;7.6&#xFF0C;&#x53BB;&#x5B98;&#x7F51;&#x770B;&#x4E86;&#x4E00;&#x4E0B;&#xFF0C;&#x9875;&#x9762;UI&#x597D;&#x770B;&#x4E86;&#x5F88;&#x591A;&#xFF0C;&#x90A3;&#x5C31;&#x88C5;&#x6700;&#x65B0;&#x7684;&#x5427;&#x3002;</p>
+<a id="more"></a>
+<h1 id="&#x4F9D;&#x8D56;"><a href="#&#x4F9D;&#x8D56;" class="headerlink" title="&#x4F9D;&#x8D56;"></a>&#x4F9D;&#x8D56;</h1><ol>
+<li>java</li>
+<li>mysql</li>
+</ol>
+<h1 id="&#x7CFB;&#x7EDF;&#x8981;&#x6C42;"><a href="#&#x7CFB;&#x7EDF;&#x8981;&#x6C42;" class="headerlink" title="&#x7CFB;&#x7EDF;&#x8981;&#x6C42;"></a>&#x7CFB;&#x7EDF;&#x8981;&#x6C42;</h1><ul>
+<li>CPU&#xFF1A;Quad core 2GHz+ CPU</li>
+<li>RAM: 6GB</li>
+<li>Minimum database space: 10GB</li>
+</ul>
+<h1 id="&#x5B89;&#x88C5;"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</h1><h2 id="&#x4ECE;&#x6E90;&#x7801;&#x5B89;&#x88C5;mysql"><a href="#&#x4ECE;&#x6E90;&#x7801;&#x5B89;&#x88C5;mysql" class="headerlink" title="&#x4ECE;&#x6E90;&#x7801;&#x5B89;&#x88C5;mysql"></a>&#x4ECE;&#x6E90;&#x7801;&#x5B89;&#x88C5;mysql</h2><blockquote>
+<p>Jira &#x652F;&#x6301;mysql5.7, &#x4E0D;&#x8FC7;confluence&#x4E0D;&#x652F;&#x6301;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x9009;&#x62E9;&#x6E90;&#x7801;&#x5B89;&#x88C5;mysql5.6</p>
+</blockquote>
+<h3 id="&#x5B89;&#x88C5;&#x4F9D;&#x8D56;"><a href="#&#x5B89;&#x88C5;&#x4F9D;&#x8D56;" class="headerlink" title="&#x5B89;&#x88C5;&#x4F9D;&#x8D56;"></a>&#x5B89;&#x88C5;&#x4F9D;&#x8D56;</h3><p><a href="https://cmake.org/download/" target="_blank" rel="noopener">cmake&#x4E0B;&#x8F7D;&#x5730;&#x5740;</a></p>
+<p>&#x4E0B;&#x8F7D;&#x5B8C;&#x6210;&#x540E;&#x89E3;&#x538B;&#xFF0C;&#x8FDB;&#x5165;&#x76EE;&#x5F55;&#x5206;&#x522B;&#x6267;&#x884C;&#x4EE5;&#x4E0B;&#x547D;&#x4EE4;</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">./bootstrap</div><div class="line">gmake</div><div class="line">make install</div></pre></td></tr></table></figure>
+<p>&#x5B89;&#x88C5;&#x5176;&#x5B83;&#x5305;</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">yum -y install make gcc-c++ cmake bison-devel  ncurses-devel</div></pre></td></tr></table></figure>
+<h3 id="&#x5B89;&#x88C5;java"><a href="#&#x5B89;&#x88C5;java" class="headerlink" title="&#x5B89;&#x88C5;java"></a>&#x5B89;&#x88C5;java</h3><p>&#x8FD9;&#x4E2A;&#x76F8;&#x5BF9;&#x7B80;&#x5355;&#xFF0C;&#x4E0B;&#x8F7D;&#x540E;&#x914D;&#x7F6E;&#x4E00;&#x4E0B;</p>
+<h3 id="&#x5B89;&#x88C5;mysql"><a href="#&#x5B89;&#x88C5;mysql" class="headerlink" title="&#x5B89;&#x88C5;mysql"></a>&#x5B89;&#x88C5;mysql</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">&gt; cmake \</div><div class="line">&gt; -DCMAKE_INSTALL_PREFIX=/usr/local/mysql \</div><div class="line">&gt; -DMYSQL_DATADIR=/usr/local/mysql/data \</div><div class="line">&gt; -DSYSCONFDIR=/etc \</div><div class="line">&gt; -DWITH_MYISAM_STORAGE_ENGINE=1 \</div><div class="line">&gt; -DWITH_INNOBASE_STORAGE_ENGINE=1 \</div><div class="line">&gt; -DWITH_MEMORY_STORAGE_ENGINE=1 \</div><div class="line">&gt; -DWITH_READLINE=1 \</div><div class="line">&gt; -DMYSQL_UNIX_ADDR=/var/lib/mysql/mysql.sock \</div><div class="line">&gt; -DMYSQL_TCP_PORT=3306 \</div><div class="line">&gt; -DENABLED_LOCAL_INFILE=1 \</div><div class="line">&gt; -DWITH_PARTITION_STORAGE_ENGINE=1 \</div><div class="line">&gt; -DEXTRA_CHARSETS=all \</div><div class="line">&gt; -DDEFAULT_CHARSET=utf8 \</div><div class="line">&gt; -DDEFAULT_COLLATION=utf8_general_ci</div><div class="line">&gt;</div><div class="line">&gt; make &amp;&amp; make install</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<p><a href="http://dev.mysql.com/doc/refman/5.5/en/source-configuration-options.html" target="_blank" rel="noopener">&#x5177;&#x4F53;&#x7F16;&#x8BD1;&#x53C2;&#x6570;&#x53C2;&#x8003;</a></p>
+<h4 id="mysql&#x914D;&#x7F6E;"><a href="#mysql&#x914D;&#x7F6E;" class="headerlink" title="mysql&#x914D;&#x7F6E;"></a>mysql&#x914D;&#x7F6E;</h4><p>&#x6DFB;&#x52A0;&#x7528;&#x6237;&#x7EC4;&#x53CA;&#x7528;&#x6237;</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><div class="line">groupadd mysql</div><div class="line">useradd -g mysql mysql</div></pre></td></tr></table></figure>
+<p>&#x4FEE;&#x6539;&#x6743;&#x9650;</p>
+<p><code>chown -R mysql:mysql /usr/local/mysql</code></p>
+<p>&#x521D;&#x59CB;&#x5316;</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">&gt;</span> cd /usr/local/mysql</div><div class="line"><span class="meta">&gt;</span></div><div class="line"><span class="meta">&gt;</span> scripts/mysql_install_db --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data --user=mysql</div><div class="line"><span class="meta">&gt;</span></div></pre></td></tr></table></figure>
+</blockquote>
+<p>&#x8BBE;&#x7F6E;&#x5F00;&#x673A;&#x542F;&#x52A8;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">cp support-files/mysql.server /etc/init.d/mysql</div><div class="line">chkconfig mysql on</div><div class="line">service mysql start  --&#x542F;&#x52A8;MySQL</div></pre></td></tr></table></figure>
+<p>&#x542F;&#x52A8;mysql</p>
+<p><code>service mysql start</code></p>
+<p>&#x5176;&#x5B83;&#x8BBE;&#x7F6E;&#x53EF;&#x4EE5;<a href="https://www.jianshu.com/p/7cccdaa2d177" target="_blank" rel="noopener">&#x53C2;&#x8003;&#x672C;&#x6587;&#x7AE0;</a></p>
+<p>&#x521B;&#x5EFA;DB&#x5E76;&#x8D4B;&#x6743;</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">CREATE DATABASE `jira_new` /*!40100 DEFAULT CHARACTER SET utf8*/; </div><div class="line">GRANT all on jira_new.* to root@&apos;%&apos; IDENTIFIED BY &apos;password&apos;;</div></pre></td></tr></table></figure>
+<h3 id="&#x5B89;&#x88C5;jira"><a href="#&#x5B89;&#x88C5;jira" class="headerlink" title="&#x5B89;&#x88C5;jira"></a>&#x5B89;&#x88C5;jira</h3><p><a href="https://www.atlassian.com/software/jira/download" target="_blank" rel="noopener">jira&#x4E0B;&#x8F7D;&#x5730;&#x5740;</a></p>
+<p>&#x4E0B;&#x8F7D;&#x5B8C;&#x6210;&#x540E;&#x89E3;&#x538B;<code>tar zxvf atlassian-jira-software-7.6.2.tar.gz</code></p>
+<p>&#x8BBE;&#x7F6E;jira_home</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line">mkdir -p /home/jira_home</div><div class="line">vim /home/jira/atlassian-jira-software-7.6.2-standalone/atlassian-jira/WEB-INF/classes/jira-application.properties</div><div class="line">jira.home = /home/jira_home</div></pre></td></tr></table></figure>
+<h3 id="&#x542F;&#x52A8;jira"><a href="#&#x542F;&#x52A8;jira" class="headerlink" title="&#x542F;&#x52A8;jira"></a>&#x542F;&#x52A8;jira</h3><p>&#x5C06;<code>mysql-connector-java-5.1.42-bin.jar</code>&#x548C;<code>atlassian-extras-3.2.jar</code>&#x62F7;&#x8D1D;&#x5230;<code>/home/jira/atlassian-jira-software-7.6.2-standalone/atlassian-jira/WEB-INF/lib</code>&#x76EE;&#x5F55;&#x4E0B;</p>
+<p>&#x8FDB;&#x5165;<code>/home/jira/atlassian-jira-software-7.6.2-standalone/bin</code>&#x6267;&#x884C;<code>./start-jira.sh</code>&#x4EE5;&#x542F;&#x52A8;jira</p>
+<p>&#x5269;&#x4E0B;&#x7684;&#x5C31;&#x662F;&#x5E38;&#x89C4;&#x7684;&#x8BBE;&#x7F6E;&#x4E86;&#xFF0C;&#x8BB0;&#x5F97;&#x53BB;jira&#x7533;&#x8BF7;&#x4E00;&#x4E2A;&#x8BD5;&#x7528;license</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&amp;#x4E4B;&amp;#x524D;&amp;#x4E00;&amp;#x76F4;&amp;#x7528;&amp;#x7684;Jira6.3.6&amp;#xFF0C;&amp;#x57FA;&amp;#x672C;&amp;#x4E0A;&amp;#x5B89;&amp;#x88C5;&amp;#x4E00;&amp;#x6B21;&amp;#x5C31;&amp;#x4E0D;&amp;#x7528;&amp;#x518D;&amp;#x52A8;&amp;#x4E86;&amp;#xFF0C;&amp;#x73B0;&amp;#x5728;&amp;#x8981;&amp;#x7528;&amp;#x5230;jira agile&amp;#x4E2D;&amp;#x7684;&amp;#x9879;&amp;#x76EE;&amp;#x7BA1;&amp;#x7406;&amp;#xFF0C;&amp;#x4EE5;&amp;#x524D;&amp;#x5B89;&amp;#x88C5;&amp;#x7684;&amp;#x65F6;&amp;#x5019;&amp;#x6CA1;&amp;#x6709;&amp;#x9009;&amp;#xFF0C;&amp;#x6240;&amp;#x4EE5;&amp;#x53EA;&amp;#x80FD;&amp;#x91CD;&amp;#x65B0;&amp;#x5B89;&amp;#x88C5;&amp;#x4E86;&amp;#xFF0C;&amp;#x622A;&amp;#x6B62;&amp;#x76EE;&amp;#x524D;&amp;#xFF0C;jira&amp;#x6700;&amp;#x65B0;&amp;#x7248;&amp;#x672C;&amp;#x662F;7.6&amp;#xFF0C;&amp;#x53BB;&amp;#x5B98;&amp;#x7F51;&amp;#x770B;&amp;#x4E86;&amp;#x4E00;&amp;#x4E0B;&amp;#xFF0C;&amp;#x9875;&amp;#x9762;UI&amp;#x597D;&amp;#x770B;&amp;#x4E86;&amp;#x5F88;&amp;#x591A;&amp;#xFF0C;&amp;#x90A3;&amp;#x5C31;&amp;#x88C5;&amp;#x6700;&amp;#x65B0;&amp;#x7684;&amp;#x5427;&amp;#x3002;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>常见抓包工具使用</title>
