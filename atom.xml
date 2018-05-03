@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://qianyiliushang.github.io/"/>
-  <updated>2018-05-03T07:14:00.358Z</updated>
+  <updated>2018-05-03T07:28:55.952Z</updated>
   <id>http://qianyiliushang.github.io/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>jenkins介绍及使用</title>
-    <link href="http://qianyiliushang.github.io/2018/04/19/jenkins%E4%BB%8B%E7%BB%8D%E5%85%A5%E4%BD%BF%E7%94%A8/"/>
-    <id>http://qianyiliushang.github.io/2018/04/19/jenkins介绍入使用/</id>
+    <link href="http://qianyiliushang.github.io/2018/04/19/jenkins%E4%BB%8B%E7%BB%8D%E5%8F%8A%E4%BD%BF%E7%94%A8/"/>
+    <id>http://qianyiliushang.github.io/2018/04/19/jenkins介绍及使用/</id>
     <published>2018-04-19T06:47:04.000Z</published>
-    <updated>2018-05-03T07:14:00.358Z</updated>
+    <updated>2018-05-03T07:28:55.952Z</updated>
     
     <content type="html"><![CDATA[<p>&#x672C;&#x6587;&#x5C06;&#x7B80;&#x5355;&#x4ECB;&#x7ECD;&#x6301;&#x7EED;&#x96C6;&#x6210;&#xFF0C;jenkins&#x5728;&#x6301;&#x7EED;&#x96C6;&#x6210;&#x4E2D;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x4ECE;jenkins&#x7684;&#x5B89;&#x88C5;&#x3001;&#x914D;&#x7F6E;&#x4ECB;&#x7ECD;jenkins&#x7684;&#x57FA;&#x672C;&#x4F7F;&#x7528;&#xFF0C;&#x5E76;&#x7528;&#x4E00;&#x4E2A;java web&#x9879;&#x76EE;&#x6F14;&#x793A;demo</p>
 <a id="more"></a>
